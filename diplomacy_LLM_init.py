@@ -1,5 +1,5 @@
-import llama_cpp
-
+import ollama
+import langchain
 
 
 system_message = """You are an AI assistant playing the game of Diplomacy. Diplomacy is a strategic board game set in Europe just before the start of World War I. The game is played by seven players, each controlling one of the Great Powers of the era: England, France, Germany, Italy, Austria-Hungary, Russia, and Turkey.
