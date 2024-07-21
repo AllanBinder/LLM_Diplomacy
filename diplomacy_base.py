@@ -1,5 +1,7 @@
-import random
+#diplomacy_base.py
 
+import random
+import logging
 import json
 
 
@@ -41,13 +43,19 @@ class Unit:
 
 class Game:
     def __init__(self):
-        self.players = {}
+        self.players = {
+            'England': {'supply_centers': [], 'units': []},
+            'France': {'supply_centers': [], 'units': []},
+            'Germany': {'supply_centers': [], 'units': []},
+            'Italy': {'supply_centers': [], 'units': []},
+            'Austria': {'supply_centers': [], 'units': []},
+            'Russia': {'supply_centers': [], 'units': []},
+            'Turkey': {'supply_centers': [], 'units': []}
+        }
         self.territories = {}
         self.orders = {}
-        self.year = 1901  
-        self.season = 'Spring'  
-        self.player_orders = {}  # To track orders from each player
-        self.players_ready = set()  # To track which players have submitted orders
+        self.year = 1901
+        self.season = 'Spring'
         self.is_active = True
         self.initialize_game()
 
@@ -366,92 +374,89 @@ class Game:
         self.update_game_state()
 
     def resolve_turn(self):
-        print(f"Starting to resolve {len(self.orders)} orders.")
+        logging.info(f"Starting to resolve turn for {self.year} {self.season}")
+        logging.info(f"Current orders: {self.orders}")
+        
         move_orders = []
         support_orders = []
         hold_orders = []
-        convoy_orders = []
         
         for player, orders in self.orders.items():
             for order in orders:
-                if order[1] == 'move':
+                if len(order) < 2:
+                    logging.warning(f"Invalid order format from {player}: {order}")
+                    continue
+                if order[1] == 'move' and len(order) == 3:
                     move_orders.append((player, order))
-                elif order[1] == 'support':
+                elif order[1] == 'support' and len(order) == 4:
                     support_orders.append((player, order))
                 elif order[1] == 'hold':
                     hold_orders.append((player, order))
-                elif order[1] == 'convoy':
-                    convoy_orders.append((player, order))
+                else:
+                    logging.warning(f"Invalid order type from {player}: {order}")
 
-        # Process support orders
-        support_strength = self.process_support_orders(support_orders)
+        logging.info(f"Move orders: {move_orders}")
+        logging.info(f"Support orders: {support_orders}")
+        logging.info(f"Hold orders: {hold_orders}")
 
-        # Process convoy orders (placeholder for future implementation)
-        self.process_convoy_orders(convoy_orders)
+        try:
+            support_strength = self.process_support_orders(support_orders)
+            successful_moves = self.resolve_moves(move_orders, support_strength)
+            self.process_hold_orders(hold_orders)
+            self.execute_moves(successful_moves)
+            self.update_game_state()
 
-        # Calculate initial strengths
-        strengths = {t.name: 1 if t.unit else 0 for t in self.territories.values()}
+            logging.info(f"Resolved {len(successful_moves)} successful moves.")
+            logging.info(f"New game state: {self.generate_game_state_json()}")
+        except Exception as e:
+            logging.error(f"Error during turn resolution: {e}")
 
-        # Add strength for moving units and their supports
-        for _, order in move_orders:
-            source, _, target = order
-            strengths[target] += 1 + support_strength.get(source, 0)
-
-        # Resolve moves
+    def resolve_moves(self, move_orders, support_strength):
         successful_moves = []
         for player, order in move_orders:
             source, _, target = order
-            if target not in self.territories:
-                print(f"Invalid move: {source} to {target}")
+            if source not in self.territories or target not in self.territories:
+                logging.warning(f"Invalid move: {source} to {target}")
+                continue
+            source_territory = self.territories[source]
+            target_territory = self.territories[target]
+            if source_territory.unit is None:
+                logging.warning(f"No unit in {source}")
+                continue
+            if not self.is_valid_move(source_territory, target_territory, source_territory.unit.type):
+                logging.warning(f"Invalid move: {source_territory.unit.type} from {source} to {target}")
                 continue
             
-            # Check for head-to-head battles
-            opposite_move = next((m for m in move_orders if m[1][2] == source and m[1][0] == target), None)
-            if opposite_move:
-                if strengths[target] > strengths[source]:
-                    successful_moves.append((player, order))
-                    print(f"Successful head-to-head move: {source} to {target}")
-                else:
-                    print(f"Failed head-to-head move: {source} to {target}")
-                continue
-
-            # Check if move is successful
-            if self.territories[target].unit is None or strengths[target] <= strengths[source]:
+            source_strength = 1 + support_strength.get(source, 0)
+            target_strength = 1 + support_strength.get(target, 0) if target_territory.unit else 0
+            
+            if source_strength > target_strength:
                 successful_moves.append((player, order))
-                print(f"Successful move: {source} to {target}")
+                logging.info(f"Successful move: {source} to {target}")
             else:
-                print(f"Failed move: {source} to {target}")
+                logging.info(f"Failed move: {source} to {target}")
+        
+        return successful_moves
 
-        # Execute successful moves and identify dislodged units
+    def execute_moves(self, successful_moves):
         self.dislodged_units = {}
         for player, order in successful_moves:
             source, _, target = order
             if self.territories[target].unit:
                 self.dislodged_units[target] = self.territories[target].unit
-            
-            # Update the source and target territories
+
             self.territories[target].unit = self.territories[source].unit
             self.territories[source].unit = None
             self.territories[target].owner = player
 
-            # Update supply centers
             if self.territories[target].is_supply_center:
-                if player not in self.players:
-                    self.players[player] = {"supply_centers": [], "units": []}
                 if target not in self.players[player]["supply_centers"]:
                     self.players[player]["supply_centers"].append(target)
                 if self.territories[target].owner and self.territories[target].owner != player:
                     self.players[self.territories[target].owner]["supply_centers"].remove(target)
+    
 
-        # Process hold orders
-        self.process_hold_orders(hold_orders)
-
-        # Update game state
-        self.update_game_state()
-
-        print(f"Resolved {len(successful_moves)} successful moves.")
-        print(f"Dislodged units: {len(self.dislodged_units)}")
-
+    
     def process_support_orders(self, support_orders):
         support_strength = {}
         for player, order in support_orders:
@@ -579,11 +584,11 @@ class Game:
     def is_valid_convoy(self, source, convoy_from, convoy_to):
         return source.unit.type == 'fleet' and source.type == 'sea' and convoy_from.type != 'sea' and convoy_to.type != 'sea'
 
-    def is_valid_move(self, source, target, unit_type):
+    def is_valid_move(self, source_territory, target_territory, unit_type):
         if unit_type == 'army':
-            return target in source.adjacent and target.can_host('army')
+            return target_territory in source_territory.adjacent and target_territory.type in ['land', 'coast']
         elif unit_type == 'fleet':
-            return target in source.adjacent and target.can_host('fleet')
+            return target_territory in source_territory.adjacent and target_territory.type in ['sea', 'coast']
         return False
     
     def retreat_and_disband(self):
@@ -635,16 +640,12 @@ class Game:
     
 
     def update_game_state(self):
-        for player in self.players:
-            self.players[player]["territories"] = [t.name for t in self.territories.values() if t.owner == player]
-            self.players[player]["units"] = [t.name for t in self.territories.values() if t.owner == player and t.unit]
-
-        # Update season and year
-        if self.season == 'Fall':
+        if self.season == 'Spring':
+            self.season = 'Fall'
+        else:
             self.season = 'Spring'
             self.year += 1
-        else:
-            self.season = 'Fall'
+        logging.info(f"Updated game state to {self.year} {self.season}")
 
 
     def generate_game_state_json(self):

@@ -1,3 +1,5 @@
+# diplomacy_server.py
+
 import asyncio
 import websockets
 import json
@@ -14,7 +16,8 @@ class DiplomacyServer:
         self.game = Game()
         self.connected_players = {}
         self.lock = asyncio.Lock()
-        self.shutdown_event = asyncio.Event()
+        self.turn_counter = 0
+        self.max_turns = 10  # Set to 10 for a longer game
         logging.info("DiplomacyServer initialized")
 
     async def register(self, websocket, player_name):
@@ -57,32 +60,41 @@ class DiplomacyServer:
     async def end_game(self):
         winner = self.game.check_victory()
         if winner:
-            await self.broadcast({"type": "game_end", "winner": winner, "message": f"{winner} has won the game!"})
+            message = f"{winner} has won the game!"
         else:
             max_supply_centers = max(len(player_data["supply_centers"]) for player_data in self.game.players.values())
             leaders = [player for player, data in self.game.players.items() if len(data["supply_centers"]) == max_supply_centers]
             
             if len(leaders) == 1:
-                await self.broadcast({"type": "game_end", "winner": leaders[0], "message": f"{leaders[0]} has won with the most supply centers!"})
+                winner = leaders[0]
+                message = f"{winner} has won with the most supply centers!"
             else:
-                await self.broadcast({"type": "game_end", "winner": None, "message": f"The game has ended in a draw between {', '.join(leaders)}."})
+                winner = None
+                message = f"The game has ended in a draw between {', '.join(leaders)}."
         
-        # Close all connections
-        close_coros = [ws.close() for ws in self.connected_players.values()]
-        await asyncio.gather(*close_coros, return_exceptions=True)
-        self.connected_players.clear()
+        logging.info(f"Game ended. {message}")
+        await self.broadcast({"type": "game_end", "winner": winner, "message": message})
 
     async def handle_orders(self, player_name, orders):
         async with self.lock:
             try:
                 logging.info(f"Received orders from {player_name}: {orders}")
                 self.game.orders[player_name] = orders
+                logging.info(f"Current orders: {self.game.orders}")
+                logging.info(f"Connected players: {self.connected_players}")
+                
                 if len(self.game.orders) == len(self.connected_players):
+                    logging.info("All orders received. Resolving turn.")
                     self.game.resolve_turn()
                     new_game_state = self.game.generate_game_state_json()
+                    logging.info(f"New game state: {new_game_state}")
                     await self.broadcast({"type": "turn_resolved", "game_state": new_game_state})
                     
-                    if self.game.year > 1900 + MAX_TURNS // 2 or self.game.check_victory():
+                    self.turn_counter += 1
+                    logging.info(f"Turn {self.turn_counter} completed")
+                    
+                    if self.turn_counter >= self.max_turns or self.game.check_victory():
+                        logging.info("Game end condition met.")
                         await self.end_game()
                     else:
                         self.game.orders.clear()  # Clear orders for the next turn
@@ -91,6 +103,11 @@ class DiplomacyServer:
             except Exception as e:
                 logging.error(f"Error processing orders: {e}")
                 await self.notify_player(player_name, {"type": "error", "message": "Error processing orders"})
+
+    def all_active_players_submitted(self):
+        # Consider a player active if they're connected and have units
+        active_players = [p for p in self.connected_players if self.game.players[p]["units"]]
+        return len(self.game.orders) == len(active_players)
 
     async def handle_connection(self, websocket, path):
         player_name = None
@@ -105,14 +122,11 @@ class DiplomacyServer:
                     await self.register(websocket, player_name)
                 elif data["type"] == "orders" and player_name and self.game.is_active:
                     await self.handle_orders(player_name, data["orders"])
-                elif data["type"] == "ping" and self.game.is_active:
+                elif data["type"] == "ping":
                     await websocket.send(json.dumps({"type": "pong"}))
-                    logging.info(f"Sent pong to {player_name}")
 
         except websockets.exceptions.ConnectionClosed:
             logging.info(f"Connection closed for {player_name}")
-        except Exception as e:
-            logging.error(f"Error in handle_connection: {e}")
         finally:
             if player_name:
                 await self.unregister(player_name)

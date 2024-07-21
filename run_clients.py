@@ -1,3 +1,5 @@
+# run_clients.py
+
 import asyncio
 import random
 from diplomacy_client import DiplomacyClient

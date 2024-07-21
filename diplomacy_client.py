@@ -1,8 +1,12 @@
+#diplomacy_client.py
+
 import asyncio
 import websockets
 import json
 import random
 import logging
+from test_orders import get_orders
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,6 +16,7 @@ class DiplomacyClient:
         self.player_name = player_name
         self.websocket = None
         self.registered = False
+        self.turn_count = 0
         logging.info(f"DiplomacyClient initialized for {player_name}")
 
     async def connect(self):
@@ -40,10 +45,65 @@ class DiplomacyClient:
             logging.error(f"Error during registration: {e}")
             return False
 
-    async def submit_orders(self, orders):
-        order_message = json.dumps({"type": "orders", "orders": orders})
-        await self.websocket.send(order_message)
-        logging.info(f"Submitted orders: {orders}")
+    async def submit_orders(self, game_state):
+        try:
+            self.turn_count += 1
+            country = self.get_country_from_player_name()
+            orders = get_orders(country, self.turn_count)
+            
+            if orders:
+                logging.info(f"Generated orders for {self.player_name} (Turn {self.turn_count}): {orders}")
+            else:
+                logging.warning(f"No predefined orders for {self.player_name} (Turn {self.turn_count}). Generating empty order list.")
+            
+            order_message = json.dumps({"type": "orders", "orders": orders})
+            await self.websocket.send(order_message)
+            logging.info(f"Submitted orders: {orders}")
+        except Exception as e:
+            logging.error(f"Error submitting orders: {e}")
+    async def receive_messages(self):
+        try:
+            while True:
+                message = await self.websocket.recv()
+                data = json.loads(message)
+                logging.info(f"Received message: {data}")
+
+                if data['type'] in ['game_start', 'new_turn']:
+                    logging.info(f"{'Game started' if data['type'] == 'game_start' else 'New turn'}. Submitting orders.")
+                    await self.submit_orders(data['game_state'])
+                elif data['type'] == 'turn_resolved':
+                    logging.info("Turn resolved.")
+                elif data['type'] == 'game_end':
+                    logging.info(f"Game ended. {data['message']}")
+                    break
+                elif data['type'] == 'error':
+                    logging.error(f"Received error from server: {data['message']}")
+        except Exception as e:
+            logging.error(f"An error occurred while receiving messages: {e}")
+
+    def submit_random_orders(self, game_state):
+        self.turn_count += 1
+        country = self.get_country_from_player_name()
+        orders = get_orders(country, self.turn_count)
+        
+        if orders:
+            logging.info(f"Generated orders for {self.player_name} (Turn {self.turn_count}): {orders}")
+        else:
+            logging.warning(f"No predefined orders for {self.player_name} (Turn {self.turn_count}). Generating empty order list.")
+        
+        return orders
+    
+    def get_country_from_player_name(self):
+        country_mapping = {
+            'Player1': 'England',
+            'Player2': 'France',
+            'Player3': 'Germany',
+            'Player4': 'Italy',
+            'Player5': 'Austria',
+            'Player6': 'Russia',
+            'Player7': 'Turkey'
+        }
+        return country_mapping.get(self.player_name, 'Unknown')
 
     async def receive_messages(self):
         try:
@@ -54,9 +114,7 @@ class DiplomacyClient:
 
                 if data['type'] in ['game_start', 'new_turn']:
                     logging.info(f"{'Game started' if data['type'] == 'game_start' else 'New turn'}. Submitting orders.")
-                    orders = self.submit_random_orders(data['game_state'])
-                    logging.info(f"Generated orders: {orders}")
-                    await self.submit_orders(orders)
+                    await self.submit_orders(data['game_state'])
                 elif data['type'] == 'turn_resolved':
                     logging.info("Turn resolved.")
                 elif data['type'] == 'game_end':
@@ -64,41 +122,18 @@ class DiplomacyClient:
                     break
                 elif data['type'] == 'error':
                     logging.error(f"Received error from server: {data['message']}")
+                elif data['type'] == 'pong':
+                    logging.info("Received pong from server")
         except websockets.exceptions.ConnectionClosed:
             logging.info("Connection with server closed")
         except Exception as e:
             logging.error(f"An error occurred while receiving messages: {e}")
 
-    def submit_random_orders(self, game_state):
-        game_state_data = json.loads(game_state)
-        player_units = {territory: unit for territory, unit in game_state_data['U'].items() if unit[1:4] == self.player_name[:3].upper()}
-        
-        orders = []
-        for territory, unit in player_units.items():
-            unit_type = 'army' if unit[0] == 'A' else 'fleet'
-            adjacent_territories = self.get_adjacent_territories(territory)
-            valid_moves = [t for t in adjacent_territories if self.is_valid_move(territory, t, unit_type)]
-            
-            if valid_moves:
-                order_type = random.choice(['hold', 'move', 'support'])
-                if order_type == 'hold':
-                    orders.append((territory, 'hold'))
-                elif order_type == 'move':
-                    target = random.choice(valid_moves)
-                    orders.append((territory, 'move', target))
-                elif order_type == 'support':
-                    supported_territory = random.choice(adjacent_territories)
-                    support_target = random.choice(self.get_adjacent_territories(supported_territory) + [supported_territory])
-                    orders.append((territory, 'support', supported_territory, support_target))
-            else:
-                orders.append((territory, 'hold'))
-        
-        logging.info(f"Generated orders for {self.player_name}: {orders}")
-        return orders
-    
     def is_valid_move(self, source, target, unit_type):
         source_type = self.get_territory_type(source)
         target_type = self.get_territory_type(target)
+        
+        logging.info(f"Checking move validity: {source} ({source_type}) to {target} ({target_type}) for {unit_type}")
         
         if unit_type == 'army':
             return target_type in ['land', 'coast']
@@ -107,7 +142,7 @@ class DiplomacyClient:
                 return True
             return target_type == 'sea'
         return False
-    
+
     def get_territory_type(self, territory):
         land_territories = ['Moscow', 'St Petersburg', 'Warsaw', 'Livonia', 'Ukraine', 'Sevastopol', 'Armenia', 'Syria', 'Smyrna', 'Ankara', 'Constantinople', 'Bulgaria', 'Rumania', 'Serbia', 'Greece', 'Albania', 'Trieste', 'Vienna', 'Budapest', 'Galicia', 'Bohemia', 'Tyrolia', 'Piedmont', 'Tuscany', 'Rome', 'Apulia', 'Naples', 'Venice', 'Munich', 'Ruhr', 'Prussia', 'Silesia', 'Berlin', 'Kiel', 'Holland', 'Belgium', 'Picardy', 'Burgundy', 'Marseilles', 'Gascony', 'Paris', 'Brest', 'Spain', 'Portugal', 'North Africa', 'Tunis']
         sea_territories = ['Barents Sea', 'Norwegian Sea', 'North Sea', 'Skagerrak', 'Helgoland Bight', 'Baltic Sea', 'Gulf of Bothnia', 'Gulf of Lyon', 'Tyrrhenian Sea', 'Ionian Sea', 'Adriatic Sea', 'Aegean Sea', 'Eastern Mediterranean', 'Black Sea', 'Mid-Atlantic Ocean', 'Western Mediterranean', 'North Atlantic Ocean']
