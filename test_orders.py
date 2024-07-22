@@ -96,46 +96,77 @@ INITIAL_POSITIONS = {
     'Turkey': {'Constantinople': 'army', 'Ankara': 'army', 'Smyrna': 'fleet'}
 }
 
-def is_valid_move(unit_type, source, target):
-    if source not in ADJACENCY or target not in ADJACENCY[source]:
-        return False
-    if unit_type == 'army':
-        return target not in ['North Atlantic Ocean', 'Norwegian Sea', 'North Sea', 'Baltic Sea', 'Adriatic Sea', 'Ionian Sea', 'Tyrrhenian Sea', 'Western Mediterranean', 'Mid-Atlantic Ocean']
-    return True  # For simplicity, assume all fleet moves are valid if adjacent
+SEA_TERRITORIES = {
+    'North Atlantic Ocean', 'Norwegian Sea', 'Barents Sea', 'North Sea', 'Skagerrak',
+    'Helgoland Bight', 'Baltic Sea', 'Gulf of Bothnia', 'Irish Sea', 'English Channel',
+    'Mid-Atlantic Ocean', 'Western Mediterranean', 'Gulf of Lyon', 'Tyrrhenian Sea',
+    'Ionian Sea', 'Adriatic Sea', 'Aegean Sea', 'Eastern Mediterranean', 'Black Sea'
+}
 
-def generate_random_move(country, units):
-    unit_positions = list(units.keys())
-    source = random.choice(unit_positions)
-    unit_type = units[source]
-    
-    possible_targets = [t for t in ADJACENCY.get(source, []) if is_valid_move(unit_type, source, t)]
+COASTAL_TERRITORIES = {
+    'Clyde', 'Edinburgh', 'Yorkshire', 'London', 'Wales', 'Liverpool', 'Norway',
+    'Sweden', 'Denmark', 'Holland', 'Belgium', 'Brest', 'Picardy', 'Spain', 'Portugal',
+    'Gascony', 'Marseilles', 'Piedmont', 'Tuscany', 'Rome', 'Naples', 'Apulia', 'Venice',
+    'Trieste', 'Albania', 'Greece', 'Bulgaria', 'Constantinople', 'Smyrna', 'Syria',
+    'Sevastopol', 'Rumania', 'St Petersburg'
+}
+
+def generate_random_move(territory, unit_type, adjacency):
+    possible_targets = [t for t in adjacency.get(territory, []) if is_valid_move(territory, t, unit_type, adjacency)]
     
     if possible_targets:
         target = random.choice(possible_targets)
-        return (source, 'move', target)
+        return (territory, 'move', target)
     else:
-        return (source, 'hold')
+        return (territory, 'hold')
 
-def generate_country_orders(country, units):
+def is_valid_move(source, target, unit_type, adjacency):
+    if target not in adjacency.get(source, []):
+        return False
+    if unit_type == 'A':
+        return target not in SEA_TERRITORIES
+    elif unit_type == 'F':
+        if source in COASTAL_TERRITORIES and target in COASTAL_TERRITORIES:
+            return True
+        if source in SEA_TERRITORIES or target in SEA_TERRITORIES:
+            return True
+    return False
+
+def generate_country_orders(units, controlled_territories):
     orders = []
-    for _ in range(len(units)):
-        move = generate_random_move(country, units)
-        orders.append(move)
-        if move[1] == 'move':
-            units[move[2]] = units.pop(move[0])
+    for source, unit_type in units.items():
+        if random.random() < 0.2:  # 20% chance to hold
+            orders.append((source, 'hold'))
+        else:
+            move = generate_random_move({source: unit_type}, controlled_territories)
+            orders.append(move)
     return orders
 
-def get_orders(country, turn):
-    units = INITIAL_POSITIONS[country].copy()
-    return generate_country_orders(country, units)
+def get_orders(country, units, controlled_territories, adjacency):
+    orders = []
+    for territory, unit_type in units.items():
+        if random.random() < 0.2:  # 20% chance to hold
+            orders.append((territory, 'hold'))
+        else:
+            move = generate_random_move(territory, unit_type, adjacency)
+            orders.append(move)
+    
+    # Generate support orders for units without moves
+    for territory in controlled_territories:
+        if territory not in units and random.random() < 0.3:  # 30% chance to support
+            adjacent_units = [t for t in adjacency.get(territory, []) if t in units]
+            if adjacent_units:
+                support_target = random.choice(adjacent_units)
+                orders.append((territory, 'support', support_target))
+    
+    return orders
 
 # Example usage
 if __name__ == "__main__":
-    for country in INITIAL_POSITIONS.keys():
-        print(f"{country} orders for turn 1:")
-        print(get_orders(country, 1))
-        print()
-
+    test_units = {'London': 'F', 'Edinburgh': 'F', 'Liverpool': 'A'}
+    test_territories = {'London', 'Edinburgh', 'Liverpool', 'Yorkshire'}
+    print(f"Test orders:")
+    print(get_orders('England', test_units, test_territories))
 
 
 

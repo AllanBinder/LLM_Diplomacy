@@ -5,6 +5,7 @@ import websockets
 import json
 import logging
 import signal
+import traceback
 from diplomacy_base import Game
 
 logging.basicConfig(level=logging.INFO)
@@ -59,21 +60,14 @@ class DiplomacyServer:
 
     async def end_game(self):
         winner = self.game.check_victory()
+        message = f"Game ended. "
         if winner:
-            message = f"{winner} has won the game!"
+            message += f"{winner} has won the game!"
         else:
-            max_supply_centers = max(len(player_data["supply_centers"]) for player_data in self.game.players.values())
-            leaders = [player for player, data in self.game.players.items() if len(data["supply_centers"]) == max_supply_centers]
-            
-            if len(leaders) == 1:
-                winner = leaders[0]
-                message = f"{winner} has won with the most supply centers!"
-            else:
-                winner = None
-                message = f"The game has ended in a draw between {', '.join(leaders)}."
-        
-        logging.info(f"Game ended. {message}")
-        await self.broadcast({"type": "game_end", "winner": winner, "message": message})
+            message += "No clear winner."
+        await self.broadcast({"type": "game_end", "message": message})
+        for ws in self.connected_players.values():
+            await ws.close()
 
     async def handle_orders(self, player_name, orders):
         async with self.lock:
@@ -101,7 +95,8 @@ class DiplomacyServer:
                         next_game_state = self.game.generate_game_state_json()
                         await self.broadcast({"type": "new_turn", "game_state": next_game_state})
             except Exception as e:
-                logging.error(f"Error processing orders: {e}")
+                logging.error(f"Error processing orders: {str(e)}")
+                logging.error(f"Traceback: {traceback.format_exc()}")
                 await self.notify_player(player_name, {"type": "error", "message": "Error processing orders"})
 
     def all_active_players_submitted(self):
@@ -112,8 +107,7 @@ class DiplomacyServer:
     async def handle_connection(self, websocket, path):
         player_name = None
         try:
-            while True:
-                message = await websocket.recv()
+            async for message in websocket:
                 data = json.loads(message)
                 logging.info(f"Received message: {data}")
 
@@ -127,6 +121,9 @@ class DiplomacyServer:
 
         except websockets.exceptions.ConnectionClosed:
             logging.info(f"Connection closed for {player_name}")
+        except Exception as e:
+            logging.error(f"Error in handle_connection: {str(e)}")
+            logging.error(traceback.format_exc())
         finally:
             if player_name:
                 await self.unregister(player_name)
@@ -138,7 +135,13 @@ class DiplomacyServer:
     async def main(self):
         server = await websockets.serve(self.handle_connection, "localhost", 8765)
         logging.info("Server started. Waiting for connections...")
-        await server.wait_closed()
+        try:
+            await server.wait_closed()
+        except asyncio.CancelledError:
+            logging.info("Server shutting down...")
+        finally:
+            await self.end_game()
+            logging.info("Game ended.")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

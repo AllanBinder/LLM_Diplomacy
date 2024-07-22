@@ -5,7 +5,9 @@ import websockets
 import json
 import random
 import logging
+import traceback
 from test_orders import get_orders
+from test_orders import ADJACENCY
 
 
 logging.basicConfig(level=logging.INFO)
@@ -16,7 +18,10 @@ class DiplomacyClient:
         self.player_name = player_name
         self.websocket = None
         self.registered = False
-        self.turn_count = 0
+        self.turn_counter = 0
+        self.units = {}
+        self.controlled_territories = set()
+        self.adjacency = {}  # Add this line
         logging.info(f"DiplomacyClient initialized for {player_name}")
 
     async def connect(self):
@@ -47,39 +52,26 @@ class DiplomacyClient:
 
     async def submit_orders(self, game_state):
         try:
-            self.turn_count += 1
+            self.turn_counter += 1
+            is_active = self.parse_game_state(game_state)
+            
+            if not is_active:
+                logging.info(f"{self.player_name} has no units or territories. Skipping order submission.")
+                return
+
             country = self.get_country_from_player_name()
-            orders = get_orders(country, self.turn_count)
+            orders = get_orders(country, self.units, self.controlled_territories, self.adjacency)
             
             if orders:
-                logging.info(f"Generated orders for {self.player_name} (Turn {self.turn_count}): {orders}")
+                logging.info(f"Generated orders for {self.player_name} (Turn {self.turn_counter}): {orders}")
+                order_message = json.dumps({"type": "orders", "orders": orders})
+                await self.websocket.send(order_message)
+                logging.info(f"Submitted orders: {orders}")
             else:
-                logging.warning(f"No predefined orders for {self.player_name} (Turn {self.turn_count}). Generating empty order list.")
-            
-            order_message = json.dumps({"type": "orders", "orders": orders})
-            await self.websocket.send(order_message)
-            logging.info(f"Submitted orders: {orders}")
+                logging.warning(f"No valid orders generated for {self.player_name} (Turn {self.turn_counter}).")
         except Exception as e:
-            logging.error(f"Error submitting orders: {e}")
-    async def receive_messages(self):
-        try:
-            while True:
-                message = await self.websocket.recv()
-                data = json.loads(message)
-                logging.info(f"Received message: {data}")
-
-                if data['type'] in ['game_start', 'new_turn']:
-                    logging.info(f"{'Game started' if data['type'] == 'game_start' else 'New turn'}. Submitting orders.")
-                    await self.submit_orders(data['game_state'])
-                elif data['type'] == 'turn_resolved':
-                    logging.info("Turn resolved.")
-                elif data['type'] == 'game_end':
-                    logging.info(f"Game ended. {data['message']}")
-                    break
-                elif data['type'] == 'error':
-                    logging.error(f"Received error from server: {data['message']}")
-        except Exception as e:
-            logging.error(f"An error occurred while receiving messages: {e}")
+            logging.error(f"Error submitting orders: {str(e)}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
 
     def submit_random_orders(self, game_state):
         self.turn_count += 1
@@ -93,6 +85,31 @@ class DiplomacyClient:
         
         return orders
     
+    def parse_game_state(self, game_state_json):
+        game_state = json.loads(game_state_json)
+        country = self.get_country_from_player_name()
+        country_code = country[:3].upper()
+
+        self.units = {}
+        self.controlled_territories = set()
+
+        for territory, unit in game_state['U'].items():
+            if unit.endswith(country_code):
+                self.units[territory] = unit[0]  # 'A' for Army, 'F' for Fleet
+                self.controlled_territories.add(territory)
+
+        for territory, owner in game_state['SC'].items():
+            if owner == country_code:
+                self.controlled_territories.add(territory)
+
+        # Update adjacency information
+        self.adjacency = ADJACENCY  # Import ADJACENCY from test_orders.py
+
+        logging.info(f"{self.player_name} units: {self.units}")
+        logging.info(f"{self.player_name} controlled territories: {self.controlled_territories}")
+
+        return len(self.units) > 0 or len(self.controlled_territories) > 0
+
     def get_country_from_player_name(self):
         country_mapping = {
             'Player1': 'England',
