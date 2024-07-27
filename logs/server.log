@@ -1,0 +1,518 @@
+2024-07-27 10:15:04,266 - root - INFO - Starting the Diplomacy server...
+2024-07-27 10:15:04,266 - root - INFO - DiplomacyServer initialized
+2024-07-27 10:15:04,326 - websockets.server - INFO - server listening on [::1]:8765
+2024-07-27 10:15:04,326 - websockets.server - INFO - server listening on 127.0.0.1:8765
+2024-07-27 10:15:04,326 - root - INFO - Server started. Waiting for connections...
+2024-07-27 10:15:11,737 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,738 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,738 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,738 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,739 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,739 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,739 - websockets.server - INFO - connection open
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player1'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player1 registered. Total players: 1
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player3'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player3 registered. Total players: 2
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player2'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player2 registered. Total players: 3
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player5'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player5 registered. Total players: 4
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player4'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player4 registered. Total players: 5
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player7'}
+2024-07-27 10:15:11,740 - root - INFO - Player Player7 registered. Total players: 6
+2024-07-27 10:15:11,740 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player6'}
+2024-07-27 10:15:11,741 - root - INFO - Player Player6 registered. Total players: 7
+2024-07-27 10:15:11,741 - root - INFO - All players joined. Starting the game.
+2024-07-27 10:15:11,741 - root - INFO - Received message: {'type': 'orders', 'orders': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']]}
+2024-07-27 10:15:11,742 - root - INFO - Received orders from Player1: [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']]
+2024-07-27 10:15:11,742 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']]}
+2024-07-27 10:15:11,742 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,742 - root - INFO - Received message: {'type': 'orders', 'orders': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']]}
+2024-07-27 10:15:11,742 - root - INFO - Received orders from Player3: [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']]
+2024-07-27 10:15:11,742 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']]}
+2024-07-27 10:15:11,742 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,742 - root - INFO - Received message: {'type': 'orders', 'orders': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']]}
+2024-07-27 10:15:11,742 - root - INFO - Received orders from Player2: [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']]
+2024-07-27 10:15:11,742 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']]}
+2024-07-27 10:15:11,742 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,742 - root - INFO - Received message: {'type': 'orders', 'orders': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']]}
+2024-07-27 10:15:11,742 - root - INFO - Received orders from Player5: [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']]
+2024-07-27 10:15:11,743 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']], 'Player5': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']]}
+2024-07-27 10:15:11,743 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,743 - root - INFO - Received message: {'type': 'orders', 'orders': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']]}
+2024-07-27 10:15:11,743 - root - INFO - Received orders from Player4: [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']]
+2024-07-27 10:15:11,743 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']], 'Player5': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']]}
+2024-07-27 10:15:11,743 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,743 - root - INFO - Received message: {'type': 'orders', 'orders': [['Constantinople', 'move', 'Smyrna'], ['Ankara', 'hold'], ['Smyrna', 'move', 'Syria']]}
+2024-07-27 10:15:11,743 - root - INFO - Received orders from Player7: [['Constantinople', 'move', 'Smyrna'], ['Ankara', 'hold'], ['Smyrna', 'move', 'Syria']]
+2024-07-27 10:15:11,743 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']], 'Player5': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player7': [['Constantinople', 'move', 'Smyrna'], ['Ankara', 'hold'], ['Smyrna', 'move', 'Syria']]}
+2024-07-27 10:15:11,743 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,743 - root - INFO - Received message: {'type': 'orders', 'orders': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:15:11,743 - root - INFO - Received orders from Player6: [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]
+2024-07-27 10:15:11,743 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']], 'Player5': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player7': [['Constantinople', 'move', 'Smyrna'], ['Ankara', 'hold'], ['Smyrna', 'move', 'Syria']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:15:11,744 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,744 - root - INFO - All orders received. Resolving turn.
+2024-07-27 10:15:11,744 - root - INFO - Starting to resolve turn for 1901 Fall
+2024-07-27 10:15:11,744 - root - INFO - Current orders: {'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'move', 'Wales'], ['London', 'hold']], 'Player3': [['Kiel', 'move', 'Baltic Sea'], ['Berlin', 'move', 'Munich'], ['Munich', 'move', 'Burgundy']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'hold'], ['Marseilles', 'move', 'Spain']], 'Player5': [['Vienna', 'move', 'Trieste'], ['Budapest', 'move', 'Vienna'], ['Trieste', 'move', 'Albania']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Apulia'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player7': [['Constantinople', 'move', 'Smyrna'], ['Ankara', 'hold'], ['Smyrna', 'move', 'Syria']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:15:11,744 - root - INFO - Move orders: [('Player1', ['Liverpool', 'move', 'Wales']), ('Player3', ['Kiel', 'move', 'Baltic Sea']), ('Player3', ['Berlin', 'move', 'Munich']), ('Player3', ['Munich', 'move', 'Burgundy']), ('Player2', ['Brest', 'move', 'Picardy']), ('Player2', ['Marseilles', 'move', 'Spain']), ('Player5', ['Vienna', 'move', 'Trieste']), ('Player5', ['Budapest', 'move', 'Vienna']), ('Player5', ['Trieste', 'move', 'Albania']), ('Player4', ['Venice', 'move', 'Trieste']), ('Player4', ['Rome', 'move', 'Apulia']), ('Player4', ['Naples', 'move', 'Tyrrhenian Sea']), ('Player7', ['Constantinople', 'move', 'Smyrna']), ('Player7', ['Smyrna', 'move', 'Syria']), ('Player6', ['Sevastopol', 'move', 'Rumania'])]
+2024-07-27 10:15:11,744 - root - INFO - Support orders: []
+2024-07-27 10:15:11,744 - root - INFO - Hold orders: [('Player1', ['Edinburgh', 'hold']), ('Player1', ['London', 'hold']), ('Player2', ['Paris', 'hold']), ('Player7', ['Ankara', 'hold']), ('Player6', ['St Petersburg', 'hold']), ('Player6', ['Moscow', 'hold']), ('Player6', ['Warsaw', 'hold'])]
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Liverpool -> Wales (army)
+2024-07-27 10:15:11,744 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,744 - root - INFO - Army move valid
+2024-07-27 10:15:11,744 - root - INFO - Successful move: Liverpool to Wales
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Kiel -> Baltic Sea (fleet)
+2024-07-27 10:15:11,744 - root - INFO - Source type: coast, Target type: sea
+2024-07-27 10:15:11,744 - root - INFO - Fleet move valid: sea/coast to sea
+2024-07-27 10:15:11,744 - root - INFO - Successful move: Kiel to Baltic Sea
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Berlin -> Munich (army)
+2024-07-27 10:15:11,744 - root - INFO - Source type: coast, Target type: land
+2024-07-27 10:15:11,744 - root - INFO - Army move valid
+2024-07-27 10:15:11,744 - root - INFO - Failed move: Berlin to Munich
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Munich -> Burgundy (army)
+2024-07-27 10:15:11,744 - root - INFO - Source type: land, Target type: land
+2024-07-27 10:15:11,744 - root - INFO - Army move valid
+2024-07-27 10:15:11,744 - root - INFO - Successful move: Munich to Burgundy
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Brest -> Picardy (fleet)
+2024-07-27 10:15:11,744 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,744 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:15:11,744 - root - INFO - Successful move: Brest to Picardy
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Marseilles -> Spain (army)
+2024-07-27 10:15:11,744 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,744 - root - INFO - Army move valid
+2024-07-27 10:15:11,744 - root - INFO - Successful move: Marseilles to Spain
+2024-07-27 10:15:11,744 - root - INFO - Checking move: Vienna -> Trieste (army)
+2024-07-27 10:15:11,745 - root - INFO - Source type: land, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Army move valid
+2024-07-27 10:15:11,745 - root - INFO - Failed move: Vienna to Trieste
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Budapest -> Vienna (army)
+2024-07-27 10:15:11,745 - root - INFO - Source type: land, Target type: land
+2024-07-27 10:15:11,745 - root - INFO - Army move valid
+2024-07-27 10:15:11,745 - root - INFO - Failed move: Budapest to Vienna
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Trieste -> Albania (fleet)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:15:11,745 - root - INFO - Successful move: Trieste to Albania
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Venice -> Trieste (army)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Army move valid
+2024-07-27 10:15:11,745 - root - INFO - Failed move: Venice to Trieste
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Rome -> Apulia (army)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Army move valid
+2024-07-27 10:15:11,745 - root - INFO - Successful move: Rome to Apulia
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Naples -> Tyrrhenian Sea (fleet)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: sea
+2024-07-27 10:15:11,745 - root - INFO - Fleet move valid: sea/coast to sea
+2024-07-27 10:15:11,745 - root - INFO - Successful move: Naples to Tyrrhenian Sea
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Constantinople -> Smyrna (army)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Army move valid
+2024-07-27 10:15:11,745 - root - INFO - Failed move: Constantinople to Smyrna
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Smyrna -> Syria (fleet)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,745 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:15:11,745 - root - INFO - Successful move: Smyrna to Syria
+2024-07-27 10:15:11,745 - root - INFO - Checking move: Sevastopol -> Rumania (fleet)
+2024-07-27 10:15:11,745 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:15:11,746 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:15:11,746 - root - INFO - Successful move: Sevastopol to Rumania
+2024-07-27 10:15:11,746 - root - INFO - Executed 10 moves
+2024-07-27 10:15:11,746 - root - INFO - Updated game state to 1902 Spring
+2024-07-27 10:15:11,746 - root - INFO - Resolved 10 successful moves.
+2024-07-27 10:15:11,746 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 1, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 1, "Player7": 0, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Edinburgh": "FPLA", "Wales": "APLA", "London": "FPLA", "Paris": "APLA", "Picardy": "FPLA", "Burgundy": "APLA", "Berlin": "AGER", "Venice": "AITA", "Apulia": "APLA", "Vienna": "AAUS", "Budapest": "AAUS", "St Petersburg": "FPLA", "Moscow": "APLA", "Warsaw": "APLA", "Constantinople": "ATUR", "Ankara": "APLA", "Syria": "FPLA", "Spain": "APLA", "Rumania": "FPLA", "Albania": "FPLA", "Baltic Sea": "FPLA", "Tyrrhenian Sea": "FPLA"}, "SC": {"Edinburgh": "PLA", "Liverpool": "ENG", "London": "PLA", "Brest": "FRA", "Paris": "PLA", "Marseilles": "FRA", "Kiel": "GER", "Berlin": "GER", "Munich": "GER", "Venice": "ITA", "Rome": "ITA", "Naples": "ITA", "Vienna": "AUS", "Budapest": "AUS", "Trieste": "AUS", "St Petersburg": "PLA", "Moscow": "PLA", "Warsaw": "PLA", "Sevastopol": "RUS", "Constantinople": "TUR", "Ankara": "PLA", "Smyrna": "TUR", "Spain": "PLA", "Rumania": "PLA"}}
+2024-07-27 10:15:11,746 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 1, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 1, "Player7": 0, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Edinburgh": "FPLA", "Wales": "APLA", "London": "FPLA", "Paris": "APLA", "Picardy": "FPLA", "Burgundy": "APLA", "Berlin": "AGER", "Venice": "AITA", "Apulia": "APLA", "Vienna": "AAUS", "Budapest": "AAUS", "St Petersburg": "FPLA", "Moscow": "APLA", "Warsaw": "APLA", "Constantinople": "ATUR", "Ankara": "APLA", "Syria": "FPLA", "Spain": "APLA", "Rumania": "FPLA", "Albania": "FPLA", "Baltic Sea": "FPLA", "Tyrrhenian Sea": "FPLA"}, "SC": {"Edinburgh": "PLA", "Liverpool": "ENG", "London": "PLA", "Brest": "FRA", "Paris": "PLA", "Marseilles": "FRA", "Kiel": "GER", "Berlin": "GER", "Munich": "GER", "Venice": "ITA", "Rome": "ITA", "Naples": "ITA", "Vienna": "AUS", "Budapest": "AUS", "Trieste": "AUS", "St Petersburg": "PLA", "Moscow": "PLA", "Warsaw": "PLA", "Sevastopol": "RUS", "Constantinople": "TUR", "Ankara": "PLA", "Smyrna": "TUR", "Spain": "PLA", "Rumania": "PLA"}}
+2024-07-27 10:15:11,746 - root - INFO - Turn 1 completed
+2024-07-27 10:15:11,748 - root - INFO - Received message: {'type': 'orders', 'orders': [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']]}
+2024-07-27 10:15:11,748 - root - INFO - Received orders from Player3: [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']]
+2024-07-27 10:15:11,748 - root - INFO - Current orders: {'Player3': [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']]}
+2024-07-27 10:15:11,748 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,749 - root - INFO - Received message: {'type': 'orders', 'orders': [['Vienna', 'move', 'Tyrolia'], ['Budapest', 'move', 'Galicia']]}
+2024-07-27 10:15:11,749 - root - INFO - Received orders from Player5: [['Vienna', 'move', 'Tyrolia'], ['Budapest', 'move', 'Galicia']]
+2024-07-27 10:15:11,749 - root - INFO - Current orders: {'Player3': [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']], 'Player5': [['Vienna', 'move', 'Tyrolia'], ['Budapest', 'move', 'Galicia']]}
+2024-07-27 10:15:11,749 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,749 - root - INFO - Received message: {'type': 'orders', 'orders': [['Venice', 'move', 'Rome'], ['Rome', 'support', 'Venice']]}
+2024-07-27 10:15:11,749 - root - INFO - Received orders from Player4: [['Venice', 'move', 'Rome'], ['Rome', 'support', 'Venice']]
+2024-07-27 10:15:11,749 - root - INFO - Current orders: {'Player3': [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']], 'Player5': [['Vienna', 'move', 'Tyrolia'], ['Budapest', 'move', 'Galicia']], 'Player4': [['Venice', 'move', 'Rome'], ['Rome', 'support', 'Venice']]}
+2024-07-27 10:15:11,749 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:15:11,749 - root - INFO - Received message: {'type': 'orders', 'orders': [['Constantinople', 'move', 'Ankara']]}
+2024-07-27 10:15:11,749 - root - INFO - Received orders from Player7: [['Constantinople', 'move', 'Ankara']]
+2024-07-27 10:15:11,749 - root - INFO - Current orders: {'Player3': [['Berlin', 'move', 'Munich'], ['Munich', 'support', 'Berlin']], 'Player5': [['Vienna', 'move', 'Tyrolia'], ['Budapest', 'move', 'Galicia']], 'Player4': [['Venice', 'move', 'Rome'], ['Rome', 'support', 'Venice']], 'Player7': [['Constantinople', 'move', 'Ankara']]}
+2024-07-27 10:15:11,749 - root - INFO - Connected players: {'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0d60>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0730>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7ce01c0df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f7d00479430>}
+2024-07-27 10:44:53,904 - root - INFO - Player Player3 unregistered. Total players: 6
+2024-07-27 10:44:53,906 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,906 - root - INFO - Player Player2 unregistered. Total players: 5
+2024-07-27 10:44:53,906 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,906 - root - INFO - Player Player5 unregistered. Total players: 4
+2024-07-27 10:44:53,906 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,906 - root - INFO - Player Player4 unregistered. Total players: 3
+2024-07-27 10:44:53,907 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,907 - root - INFO - Player Player7 unregistered. Total players: 2
+2024-07-27 10:44:53,907 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,907 - root - INFO - Player Player6 unregistered. Total players: 1
+2024-07-27 10:44:53,907 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,907 - root - INFO - Server shutting down...
+2024-07-27 10:44:53,907 - root - INFO - Player Player1 unregistered. Total players: 0
+2024-07-27 10:44:53,908 - websockets.server - INFO - connection closed
+2024-07-27 10:44:53,913 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<DiplomacyServer.main() done, defined at /Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py:145> exception=ConnectionClosedError(None, None, None)>
+Traceback (most recent call last):
+  File "/Applications/anaconda3/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 601, in run_forever
+    self._run_once()
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 1869, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/Applications/anaconda3/lib/python3.9/selectors.py", line 562, in select
+    kev_list = self._selector.control(None, max_ev, timeout)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 963, in transfer_data
+    message = await self.read_message()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1033, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1108, in read_data_frame
+    frame = await self.read_frame(max_size)
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1165, in read_frame
+    frame = await Frame.read(
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/framing.py", line 68, in read
+    data = await reader(2)
+  File "/Applications/anaconda3/lib/python3.9/asyncio/streams.py", line 723, in readexactly
+    await self._wait_for_data('readexactly')
+  File "/Applications/anaconda3/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 153, in main
+    await self.end_game()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 78, in end_game
+    await self.broadcast({"type": "game_end", "message": message})
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 67, in broadcast
+    await asyncio.gather(
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 635, in send
+    await self.ensure_open()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 934, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: no close frame received or sent
+2024-07-27 10:45:04,095 - root - INFO - Starting the Diplomacy server...
+2024-07-27 10:45:04,096 - root - INFO - DiplomacyServer initialized
+2024-07-27 10:45:04,139 - websockets.server - INFO - server listening on 127.0.0.1:8765
+2024-07-27 10:45:04,139 - websockets.server - INFO - server listening on [::1]:8765
+2024-07-27 10:45:04,139 - root - INFO - Server started. Waiting for connections...
+2024-07-27 10:45:10,934 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,934 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,934 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,934 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,935 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,935 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,935 - websockets.server - INFO - connection open
+2024-07-27 10:45:10,935 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player7'}
+2024-07-27 10:45:10,935 - root - INFO - Player Player7 registered. Total players: 1
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player5'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player5 registered. Total players: 2
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player4'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player4 registered. Total players: 3
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player3'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player3 registered. Total players: 4
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player1'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player1 registered. Total players: 5
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player2'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player2 registered. Total players: 6
+2024-07-27 10:45:10,936 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player6'}
+2024-07-27 10:45:10,936 - root - INFO - Player Player6 registered. Total players: 7
+2024-07-27 10:45:10,937 - root - INFO - All players joined. Starting the game.
+2024-07-27 10:45:10,938 - root - INFO - Received message: {'type': 'orders', 'orders': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']]}
+2024-07-27 10:45:10,938 - root - INFO - Received orders from Player7: [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']]
+2024-07-27 10:45:10,938 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']]}
+2024-07-27 10:45:10,938 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,938 - root - INFO - Received message: {'type': 'orders', 'orders': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']]}
+2024-07-27 10:45:10,938 - root - INFO - Received orders from Player5: [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']]
+2024-07-27 10:45:10,938 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']]}
+2024-07-27 10:45:10,938 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,939 - root - INFO - Received message: {'type': 'orders', 'orders': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']]}
+2024-07-27 10:45:10,939 - root - INFO - Received orders from Player4: [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']]
+2024-07-27 10:45:10,939 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']]}
+2024-07-27 10:45:10,939 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,939 - root - INFO - Received message: {'type': 'orders', 'orders': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']]}
+2024-07-27 10:45:10,939 - root - INFO - Received orders from Player3: [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']]
+2024-07-27 10:45:10,939 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']]}
+2024-07-27 10:45:10,939 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,940 - root - INFO - Received message: {'type': 'orders', 'orders': [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']]}
+2024-07-27 10:45:10,940 - root - INFO - Received orders from Player1: [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']]
+2024-07-27 10:45:10,940 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']], 'Player1': [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']]}
+2024-07-27 10:45:10,940 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,940 - root - INFO - Received message: {'type': 'orders', 'orders': [['Brest', 'move', 'Picardy'], ['Paris', 'move', 'Picardy'], ['Marseilles', 'move', 'Gascony']]}
+2024-07-27 10:45:10,940 - root - INFO - Received orders from Player2: [['Brest', 'move', 'Picardy'], ['Paris', 'move', 'Picardy'], ['Marseilles', 'move', 'Gascony']]
+2024-07-27 10:45:10,941 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']], 'Player1': [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'move', 'Picardy'], ['Marseilles', 'move', 'Gascony']]}
+2024-07-27 10:45:10,941 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,941 - root - INFO - Received message: {'type': 'orders', 'orders': [['St Petersburg', 'hold'], ['Moscow', 'move', 'St Petersburg'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:45:10,941 - root - INFO - Received orders from Player6: [['St Petersburg', 'hold'], ['Moscow', 'move', 'St Petersburg'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]
+2024-07-27 10:45:10,941 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']], 'Player1': [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'move', 'Picardy'], ['Marseilles', 'move', 'Gascony']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'move', 'St Petersburg'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:45:10,941 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,941 - root - INFO - All orders received. Resolving turn.
+2024-07-27 10:45:10,941 - root - INFO - Starting to resolve turn for 1901 Fall
+2024-07-27 10:45:10,941 - root - INFO - Current orders: {'Player7': [['Constantinople', 'move', 'Bulgaria'], ['Ankara', 'move', 'Smyrna'], ['Smyrna', 'move', 'Syria']], 'Player5': [['Vienna', 'move', 'Galicia'], ['Budapest', 'move', 'Trieste'], ['Trieste', 'move', 'Adriatic Sea']], 'Player4': [['Venice', 'move', 'Trieste'], ['Rome', 'move', 'Tuscany'], ['Naples', 'move', 'Tyrrhenian Sea']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'move', 'Silesia'], ['Munich', 'move', 'Berlin']], 'Player1': [['Edinburgh', 'move', 'Yorkshire'], ['Liverpool', 'hold'], ['London', 'move', 'Wales']], 'Player2': [['Brest', 'move', 'Picardy'], ['Paris', 'move', 'Picardy'], ['Marseilles', 'move', 'Gascony']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'move', 'St Petersburg'], ['Warsaw', 'hold'], ['Sevastopol', 'move', 'Rumania']]}
+2024-07-27 10:45:10,941 - root - INFO - Move orders: [('Player7', ['Constantinople', 'move', 'Bulgaria']), ('Player7', ['Ankara', 'move', 'Smyrna']), ('Player7', ['Smyrna', 'move', 'Syria']), ('Player5', ['Vienna', 'move', 'Galicia']), ('Player5', ['Budapest', 'move', 'Trieste']), ('Player5', ['Trieste', 'move', 'Adriatic Sea']), ('Player4', ['Venice', 'move', 'Trieste']), ('Player4', ['Rome', 'move', 'Tuscany']), ('Player4', ['Naples', 'move', 'Tyrrhenian Sea']), ('Player3', ['Berlin', 'move', 'Silesia']), ('Player3', ['Munich', 'move', 'Berlin']), ('Player1', ['Edinburgh', 'move', 'Yorkshire']), ('Player1', ['London', 'move', 'Wales']), ('Player2', ['Brest', 'move', 'Picardy']), ('Player2', ['Paris', 'move', 'Picardy']), ('Player2', ['Marseilles', 'move', 'Gascony']), ('Player6', ['Moscow', 'move', 'St Petersburg']), ('Player6', ['Sevastopol', 'move', 'Rumania'])]
+2024-07-27 10:45:10,941 - root - INFO - Support orders: []
+2024-07-27 10:45:10,941 - root - INFO - Hold orders: [('Player3', ['Kiel', 'hold']), ('Player1', ['Liverpool', 'hold']), ('Player6', ['St Petersburg', 'hold']), ('Player6', ['Warsaw', 'hold'])]
+2024-07-27 10:45:10,941 - root - INFO - Checking move: Constantinople -> Bulgaria (army)
+2024-07-27 10:45:10,941 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,941 - root - INFO - Army move valid
+2024-07-27 10:45:10,941 - root - INFO - Successful move: Constantinople to Bulgaria
+2024-07-27 10:45:10,941 - root - INFO - Checking move: Ankara -> Smyrna (army)
+2024-07-27 10:45:10,941 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,941 - root - INFO - Army move valid
+2024-07-27 10:45:10,941 - root - INFO - Failed move: Ankara to Smyrna
+2024-07-27 10:45:10,941 - root - INFO - Checking move: Smyrna -> Syria (fleet)
+2024-07-27 10:45:10,941 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,941 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:45:10,941 - root - INFO - Successful move: Smyrna to Syria
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Vienna -> Galicia (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: land, Target type: land
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Successful move: Vienna to Galicia
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Budapest -> Trieste (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: land, Target type: coast
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Failed move: Budapest to Trieste
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Trieste -> Adriatic Sea (fleet)
+2024-07-27 10:45:10,942 - root - INFO - Source type: coast, Target type: sea
+2024-07-27 10:45:10,942 - root - INFO - Fleet move valid: sea/coast to sea
+2024-07-27 10:45:10,942 - root - INFO - Successful move: Trieste to Adriatic Sea
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Venice -> Trieste (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Failed move: Venice to Trieste
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Rome -> Tuscany (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Successful move: Rome to Tuscany
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Naples -> Tyrrhenian Sea (fleet)
+2024-07-27 10:45:10,942 - root - INFO - Source type: coast, Target type: sea
+2024-07-27 10:45:10,942 - root - INFO - Fleet move valid: sea/coast to sea
+2024-07-27 10:45:10,942 - root - INFO - Successful move: Naples to Tyrrhenian Sea
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Berlin -> Silesia (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: coast, Target type: land
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Successful move: Berlin to Silesia
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Munich -> Berlin (army)
+2024-07-27 10:45:10,942 - root - INFO - Source type: land, Target type: coast
+2024-07-27 10:45:10,942 - root - INFO - Army move valid
+2024-07-27 10:45:10,942 - root - INFO - Failed move: Munich to Berlin
+2024-07-27 10:45:10,942 - root - INFO - Checking move: Edinburgh -> Yorkshire (fleet)
+2024-07-27 10:45:10,943 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:45:10,943 - root - INFO - Successful move: Edinburgh to Yorkshire
+2024-07-27 10:45:10,943 - root - INFO - Checking move: London -> Wales (fleet)
+2024-07-27 10:45:10,943 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:45:10,943 - root - INFO - Successful move: London to Wales
+2024-07-27 10:45:10,943 - root - INFO - Checking move: Brest -> Picardy (fleet)
+2024-07-27 10:45:10,943 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:45:10,943 - root - INFO - Successful move: Brest to Picardy
+2024-07-27 10:45:10,943 - root - INFO - Checking move: Paris -> Picardy (army)
+2024-07-27 10:45:10,943 - root - INFO - Source type: land, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Army move valid
+2024-07-27 10:45:10,943 - root - INFO - Successful move: Paris to Picardy
+2024-07-27 10:45:10,943 - root - INFO - Checking move: Marseilles -> Gascony (army)
+2024-07-27 10:45:10,943 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Army move valid
+2024-07-27 10:45:10,943 - root - INFO - Successful move: Marseilles to Gascony
+2024-07-27 10:45:10,943 - root - INFO - Checking move: Moscow -> St Petersburg (army)
+2024-07-27 10:45:10,943 - root - INFO - Source type: land, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Army move valid
+2024-07-27 10:45:10,943 - root - INFO - Failed move: Moscow to St Petersburg
+2024-07-27 10:45:10,943 - root - INFO - Checking move: Sevastopol -> Rumania (fleet)
+2024-07-27 10:45:10,943 - root - INFO - Source type: coast, Target type: coast
+2024-07-27 10:45:10,943 - root - INFO - Fleet move valid: coast to coast
+2024-07-27 10:45:10,943 - root - INFO - Successful move: Sevastopol to Rumania
+2024-07-27 10:45:10,943 - root - INFO - Executed 13 moves
+2024-07-27 10:45:10,943 - root - INFO - Updated game state to 1902 Spring
+2024-07-27 10:45:10,943 - root - INFO - Resolved 13 successful moves.
+2024-07-27 10:45:10,944 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 0, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 1, "Player7": 1, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Liverpool": "APLA", "Yorkshire": "FPLA", "Wales": "FPLA", "Picardy": "APLA", "Gascony": "APLA", "Kiel": "FPLA", "Munich": "AGER", "Venice": "AITA", "Tuscany": "APLA", "Galicia": "APLA", "Budapest": "AAUS", "St Petersburg": "FPLA", "Moscow": "ARUS", "Warsaw": "APLA", "Ankara": "ATUR", "Syria": "FPLA", "Rumania": "FPLA", "Bulgaria": "APLA", "Tyrrhenian Sea": "FPLA", "Adriatic Sea": "FPLA", "Silesia": "APLA"}, "SC": {"Edinburgh": "ENG", "Liverpool": "PLA", "London": "ENG", "Brest": "FRA", "Paris": "FRA", "Marseilles": "FRA", "Kiel": "PLA", "Berlin": "GER", "Munich": "GER", "Venice": "ITA", "Rome": "ITA", "Naples": "ITA", "Vienna": "AUS", "Budapest": "AUS", "Trieste": "AUS", "St Petersburg": "PLA", "Moscow": "RUS", "Warsaw": "PLA", "Sevastopol": "RUS", "Constantinople": "TUR", "Ankara": "TUR", "Smyrna": "TUR", "Rumania": "PLA", "Bulgaria": "PLA"}}
+2024-07-27 10:45:10,944 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 0, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 1, "Player7": 1, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Liverpool": "APLA", "Yorkshire": "FPLA", "Wales": "FPLA", "Picardy": "APLA", "Gascony": "APLA", "Kiel": "FPLA", "Munich": "AGER", "Venice": "AITA", "Tuscany": "APLA", "Galicia": "APLA", "Budapest": "AAUS", "St Petersburg": "FPLA", "Moscow": "ARUS", "Warsaw": "APLA", "Ankara": "ATUR", "Syria": "FPLA", "Rumania": "FPLA", "Bulgaria": "APLA", "Tyrrhenian Sea": "FPLA", "Adriatic Sea": "FPLA", "Silesia": "APLA"}, "SC": {"Edinburgh": "ENG", "Liverpool": "PLA", "London": "ENG", "Brest": "FRA", "Paris": "FRA", "Marseilles": "FRA", "Kiel": "PLA", "Berlin": "GER", "Munich": "GER", "Venice": "ITA", "Rome": "ITA", "Naples": "ITA", "Vienna": "AUS", "Budapest": "AUS", "Trieste": "AUS", "St Petersburg": "PLA", "Moscow": "RUS", "Warsaw": "PLA", "Sevastopol": "RUS", "Constantinople": "TUR", "Ankara": "TUR", "Smyrna": "TUR", "Rumania": "PLA", "Bulgaria": "PLA"}}
+2024-07-27 10:45:10,945 - root - INFO - Turn 1 completed
+2024-07-27 10:45:10,948 - root - INFO - Received message: {'type': 'orders', 'orders': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']]}
+2024-07-27 10:45:10,948 - root - INFO - Received orders from Player7: [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']]
+2024-07-27 10:45:10,948 - root - INFO - Current orders: {'Player7': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']]}
+2024-07-27 10:45:10,948 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,948 - root - INFO - Received message: {'type': 'orders', 'orders': [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']]}
+2024-07-27 10:45:10,948 - root - INFO - Received orders from Player5: [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']]
+2024-07-27 10:45:10,948 - root - INFO - Current orders: {'Player7': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']], 'Player5': [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']]}
+2024-07-27 10:45:10,948 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,949 - root - INFO - Received message: {'type': 'orders', 'orders': [['Venice', 'hold']]}
+2024-07-27 10:45:10,949 - root - INFO - Received orders from Player4: [['Venice', 'hold']]
+2024-07-27 10:45:10,949 - root - INFO - Current orders: {'Player7': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']], 'Player5': [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']], 'Player4': [['Venice', 'hold']]}
+2024-07-27 10:45:10,949 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,949 - root - INFO - Received message: {'type': 'orders', 'orders': [['Munich', 'hold']]}
+2024-07-27 10:45:10,949 - root - INFO - Received orders from Player3: [['Munich', 'hold']]
+2024-07-27 10:45:10,949 - root - INFO - Current orders: {'Player7': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']], 'Player5': [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']], 'Player4': [['Venice', 'hold']], 'Player3': [['Munich', 'hold']]}
+2024-07-27 10:45:10,949 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:45:10,950 - root - INFO - Received message: {'type': 'orders', 'orders': [['Moscow', 'move', 'Ukraine'], ['Sevastopol', 'support', 'Moscow']]}
+2024-07-27 10:45:10,951 - root - INFO - Received orders from Player6: [['Moscow', 'move', 'Ukraine'], ['Sevastopol', 'support', 'Moscow']]
+2024-07-27 10:45:10,951 - root - INFO - Current orders: {'Player7': [['Ankara', 'move', 'Constantinople'], ['Smyrna', 'support', 'Ankara']], 'Player5': [['Budapest', 'move', 'Rumania'], ['Trieste', 'support', 'Budapest']], 'Player4': [['Venice', 'hold']], 'Player3': [['Munich', 'hold']], 'Player6': [['Moscow', 'move', 'Ukraine'], ['Sevastopol', 'support', 'Moscow']]}
+2024-07-27 10:45:10,951 - root - INFO - Connected players: {'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400ca0>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400dc0>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400f70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400670>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400c10>, 'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8880400df0>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7f8890429370>}
+2024-07-27 10:59:40,823 - root - INFO - Player Player5 unregistered. Total players: 6
+2024-07-27 10:59:40,825 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,825 - root - INFO - Player Player4 unregistered. Total players: 5
+2024-07-27 10:59:40,825 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,825 - root - INFO - Player Player3 unregistered. Total players: 4
+2024-07-27 10:59:40,825 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,826 - root - INFO - Player Player1 unregistered. Total players: 3
+2024-07-27 10:59:40,826 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,826 - root - INFO - Player Player2 unregistered. Total players: 2
+2024-07-27 10:59:40,826 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,826 - root - INFO - Player Player6 unregistered. Total players: 1
+2024-07-27 10:59:40,826 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,826 - root - INFO - Server shutting down...
+2024-07-27 10:59:40,826 - root - INFO - Player Player7 unregistered. Total players: 0
+2024-07-27 10:59:40,827 - websockets.server - INFO - connection closed
+2024-07-27 10:59:40,831 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<DiplomacyServer.main() done, defined at /Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py:145> exception=ConnectionClosedError(None, None, None)>
+Traceback (most recent call last):
+  File "/Applications/anaconda3/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 634, in run_until_complete
+    self.run_forever()
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 601, in run_forever
+    self._run_once()
+  File "/Applications/anaconda3/lib/python3.9/asyncio/base_events.py", line 1869, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/Applications/anaconda3/lib/python3.9/selectors.py", line 562, in select
+    kev_list = self._selector.control(None, max_ev, timeout)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 963, in transfer_data
+    message = await self.read_message()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1033, in read_message
+    frame = await self.read_data_frame(max_size=self.max_size)
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1108, in read_data_frame
+    frame = await self.read_frame(max_size)
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 1165, in read_frame
+    frame = await Frame.read(
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/framing.py", line 68, in read
+    data = await reader(2)
+  File "/Applications/anaconda3/lib/python3.9/asyncio/streams.py", line 723, in readexactly
+    await self._wait_for_data('readexactly')
+  File "/Applications/anaconda3/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 153, in main
+    await self.end_game()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 78, in end_game
+    await self.broadcast({"type": "game_end", "message": message})
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/diplomacy_server.py", line 67, in broadcast
+    await asyncio.gather(
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 635, in send
+    await self.ensure_open()
+  File "/Users/Shared/Documents/gpt pilot/gpt-pilot/workspace/LLM_dimplomacy/llm_dip/lib/python3.9/site-packages/websockets/legacy/protocol.py", line 934, in ensure_open
+    raise self.connection_closed_exc()
+websockets.exceptions.ConnectionClosedError: no close frame received or sent
+2024-07-27 10:59:47,933 - root - INFO - Starting the Diplomacy server...
+2024-07-27 10:59:47,933 - root - INFO - DiplomacyServer initialized
+2024-07-27 10:59:47,976 - websockets.server - INFO - server listening on 127.0.0.1:8765
+2024-07-27 10:59:47,976 - websockets.server - INFO - server listening on [::1]:8765
+2024-07-27 10:59:47,976 - root - INFO - Server started. Waiting for connections...
+2024-07-27 10:59:53,172 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,173 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,173 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,173 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,173 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,174 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,174 - websockets.server - INFO - connection open
+2024-07-27 10:59:53,174 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player2'}
+2024-07-27 10:59:53,174 - root - INFO - Player Player2 registered. Total players: 1
+2024-07-27 10:59:53,174 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player3'}
+2024-07-27 10:59:53,175 - root - INFO - Player Player3 registered. Total players: 2
+2024-07-27 10:59:53,175 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player4'}
+2024-07-27 10:59:53,175 - root - INFO - Player Player4 registered. Total players: 3
+2024-07-27 10:59:53,175 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player5'}
+2024-07-27 10:59:53,175 - root - INFO - Player Player5 registered. Total players: 4
+2024-07-27 10:59:53,175 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player6'}
+2024-07-27 10:59:53,175 - root - INFO - Player Player6 registered. Total players: 5
+2024-07-27 10:59:53,175 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player7'}
+2024-07-27 10:59:53,175 - root - INFO - Player Player7 registered. Total players: 6
+2024-07-27 10:59:53,176 - root - INFO - Received message: {'type': 'register', 'player_name': 'Player1'}
+2024-07-27 10:59:53,176 - root - INFO - Player Player1 registered. Total players: 7
+2024-07-27 10:59:53,176 - root - INFO - All players joined. Starting the game.
+2024-07-27 10:59:53,177 - root - INFO - Received message: {'type': 'orders', 'orders': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']]}
+2024-07-27 10:59:53,177 - root - INFO - Received orders from Player2: [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']]
+2024-07-27 10:59:53,177 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']]}
+2024-07-27 10:59:53,177 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,177 - root - INFO - Received message: {'type': 'orders', 'orders': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']]}
+2024-07-27 10:59:53,177 - root - INFO - Received orders from Player3: [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']]
+2024-07-27 10:59:53,178 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']]}
+2024-07-27 10:59:53,178 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,178 - root - INFO - Received message: {'type': 'orders', 'orders': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']]}
+2024-07-27 10:59:53,178 - root - INFO - Received orders from Player4: [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']]
+2024-07-27 10:59:53,178 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']]}
+2024-07-27 10:59:53,178 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,179 - root - INFO - Received message: {'type': 'orders', 'orders': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Received orders from Player5: [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']]
+2024-07-27 10:59:53,179 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']], 'Player5': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,179 - root - INFO - Received message: {'type': 'orders', 'orders': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Received orders from Player6: [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']]
+2024-07-27 10:59:53,179 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']], 'Player5': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,179 - root - INFO - Received message: {'type': 'orders', 'orders': [['Constantinople', 'hold'], ['Ankara', 'hold'], ['Smyrna', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Received orders from Player7: [['Constantinople', 'hold'], ['Ankara', 'hold'], ['Smyrna', 'hold']]
+2024-07-27 10:59:53,179 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']], 'Player5': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']], 'Player7': [['Constantinople', 'hold'], ['Ankara', 'hold'], ['Smyrna', 'hold']]}
+2024-07-27 10:59:53,179 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,180 - root - INFO - Received message: {'type': 'orders', 'orders': [['Edinburgh', 'hold'], ['Liverpool', 'hold'], ['London', 'hold']]}
+2024-07-27 10:59:53,180 - root - INFO - Received orders from Player1: [['Edinburgh', 'hold'], ['Liverpool', 'hold'], ['London', 'hold']]
+2024-07-27 10:59:53,180 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']], 'Player5': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']], 'Player7': [['Constantinople', 'hold'], ['Ankara', 'hold'], ['Smyrna', 'hold']], 'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'hold'], ['London', 'hold']]}
+2024-07-27 10:59:53,180 - root - INFO - Connected players: {'Player2': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271c70>, 'Player3': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271d60>, 'Player4': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271e20>, 'Player5': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271730>, 'Player6': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271b80>, 'Player7': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00271df0>, 'Player1': <websockets.legacy.server.WebSocketServerProtocol object at 0x7fda00679430>}
+2024-07-27 10:59:53,180 - root - INFO - All orders received. Resolving turn.
+2024-07-27 10:59:53,180 - root - INFO - Starting to resolve turn for 1901 Fall
+2024-07-27 10:59:53,180 - root - INFO - Current orders: {'Player2': [['Brest', 'hold'], ['Paris', 'hold'], ['Marseilles', 'hold']], 'Player3': [['Kiel', 'hold'], ['Berlin', 'hold'], ['Munich', 'hold']], 'Player4': [['Venice', 'hold'], ['Rome', 'hold'], ['Naples', 'hold']], 'Player5': [['Vienna', 'hold'], ['Budapest', 'hold'], ['Trieste', 'hold']], 'Player6': [['St Petersburg', 'hold'], ['Moscow', 'hold'], ['Warsaw', 'hold'], ['Sevastopol', 'hold']], 'Player7': [['Constantinople', 'hold'], ['Ankara', 'hold'], ['Smyrna', 'hold']], 'Player1': [['Edinburgh', 'hold'], ['Liverpool', 'hold'], ['London', 'hold']]}
+2024-07-27 10:59:53,180 - root - INFO - Move orders: []
+2024-07-27 10:59:53,180 - root - INFO - Support orders: []
+2024-07-27 10:59:53,180 - root - INFO - Hold orders: [('Player2', ['Brest', 'hold']), ('Player2', ['Paris', 'hold']), ('Player2', ['Marseilles', 'hold']), ('Player3', ['Kiel', 'hold']), ('Player3', ['Berlin', 'hold']), ('Player3', ['Munich', 'hold']), ('Player4', ['Venice', 'hold']), ('Player4', ['Rome', 'hold']), ('Player4', ['Naples', 'hold']), ('Player5', ['Vienna', 'hold']), ('Player5', ['Budapest', 'hold']), ('Player5', ['Trieste', 'hold']), ('Player6', ['St Petersburg', 'hold']), ('Player6', ['Moscow', 'hold']), ('Player6', ['Warsaw', 'hold']), ('Player6', ['Sevastopol', 'hold']), ('Player7', ['Constantinople', 'hold']), ('Player7', ['Ankara', 'hold']), ('Player7', ['Smyrna', 'hold']), ('Player1', ['Edinburgh', 'hold']), ('Player1', ['Liverpool', 'hold']), ('Player1', ['London', 'hold'])]
+2024-07-27 10:59:53,180 - root - INFO - Executed 0 moves
+2024-07-27 10:59:53,180 - root - INFO - Updated game state to 1902 Spring
+2024-07-27 10:59:53,180 - root - INFO - Resolved 0 successful moves.
+2024-07-27 10:59:53,180 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 0, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 0, "Player7": 0, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Edinburgh": "FPLA", "Liverpool": "APLA", "London": "FPLA", "Brest": "FPLA", "Paris": "APLA", "Marseilles": "APLA", "Kiel": "FPLA", "Berlin": "APLA", "Munich": "APLA", "Venice": "APLA", "Rome": "APLA", "Naples": "FPLA", "Vienna": "APLA", "Budapest": "APLA", "Trieste": "FPLA", "St Petersburg": "FPLA", "Moscow": "APLA", "Warsaw": "APLA", "Sevastopol": "FPLA", "Constantinople": "APLA", "Ankara": "APLA", "Smyrna": "FPLA"}, "SC": {"Edinburgh": "PLA", "Liverpool": "PLA", "London": "PLA", "Brest": "PLA", "Paris": "PLA", "Marseilles": "PLA", "Kiel": "PLA", "Berlin": "PLA", "Munich": "PLA", "Venice": "PLA", "Rome": "PLA", "Naples": "PLA", "Vienna": "PLA", "Budapest": "PLA", "Trieste": "PLA", "St Petersburg": "PLA", "Moscow": "PLA", "Warsaw": "PLA", "Sevastopol": "PLA", "Constantinople": "PLA", "Ankara": "PLA", "Smyrna": "PLA"}}
+2024-07-27 10:59:53,180 - root - INFO - New game state: {"Y": 1902, "S": "S", "P": {"Player1": 0, "Player2": 0, "Player3": 0, "Player4": 0, "Player5": 0, "Player6": 0, "Player7": 0, "England": 3, "France": 3, "Germany": 3, "Italy": 3, "Austria": 3, "Russia": 4, "Turkey": 3}, "U": {"Edinburgh": "FPLA", "Liverpool": "APLA", "London": "FPLA", "Brest": "FPLA", "Paris": "APLA", "Marseilles": "APLA", "Kiel": "FPLA", "Berlin": "APLA", "Munich": "APLA", "Venice": "APLA", "Rome": "APLA", "Naples": "FPLA", "Vienna": "APLA", "Budapest": "APLA", "Trieste": "FPLA", "St Petersburg": "FPLA", "Moscow": "APLA", "Warsaw": "APLA", "Sevastopol": "FPLA", "Constantinople": "APLA", "Ankara": "APLA", "Smyrna": "FPLA"}, "SC": {"Edinburgh": "PLA", "Liverpool": "PLA", "London": "PLA", "Brest": "PLA", "Paris": "PLA", "Marseilles": "PLA", "Kiel": "PLA", "Berlin": "PLA", "Munich": "PLA", "Venice": "PLA", "Rome": "PLA", "Naples": "PLA", "Vienna": "PLA", "Budapest": "PLA", "Trieste": "PLA", "St Petersburg": "PLA", "Moscow": "PLA", "Warsaw": "PLA", "Sevastopol": "PLA", "Constantinople": "PLA", "Ankara": "PLA", "Smyrna": "PLA"}}
+2024-07-27 10:59:53,181 - root - INFO - Turn 1 completed
+2024-07-27 11:01:36,249 - root - INFO - Connection closed for Player4
+2024-07-27 11:01:36,249 - root - INFO - Player Player4 unregistered. Total players: 6
+2024-07-27 11:01:36,250 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,250 - root - INFO - Connection closed for Player2
+2024-07-27 11:01:36,250 - root - INFO - Player Player2 unregistered. Total players: 5
+2024-07-27 11:01:36,251 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,252 - root - INFO - Connection closed for Player1
+2024-07-27 11:01:36,253 - root - INFO - Player Player1 unregistered. Total players: 4
+2024-07-27 11:01:36,253 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,254 - root - INFO - Connection closed for Player5
+2024-07-27 11:01:36,254 - root - INFO - Player Player5 unregistered. Total players: 3
+2024-07-27 11:01:36,254 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,254 - root - INFO - Connection closed for Player6
+2024-07-27 11:01:36,254 - root - INFO - Player Player6 unregistered. Total players: 2
+2024-07-27 11:01:36,255 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,255 - root - INFO - Connection closed for Player3
+2024-07-27 11:01:36,255 - root - INFO - Player Player3 unregistered. Total players: 1
+2024-07-27 11:01:36,255 - websockets.server - INFO - connection closed
+2024-07-27 11:01:36,255 - root - INFO - Connection closed for Player7
+2024-07-27 11:01:36,255 - root - INFO - Player Player7 unregistered. Total players: 0
+2024-07-27 11:01:36,256 - websockets.server - INFO - connection closed
+2024-07-27 11:01:48,648 - root - INFO - Server shutting down...
+2024-07-27 11:01:48,649 - root - INFO - Game ended.

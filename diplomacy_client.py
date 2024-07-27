@@ -6,11 +6,20 @@ import json
 import random
 import logging
 import traceback
+import os
 from test_orders import get_orders
 from test_orders import ADJACENCY
 
+# Create 'logs' directory if it doesn't exist
+os.makedirs('logs', exist_ok=True)
 
-logging.basicConfig(level=logging.INFO)
+# Set up logging to both console and file
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.FileHandler('logs/clients.log'),
+                        logging.StreamHandler()
+                    ])
 
 class DiplomacyClient:
     def __init__(self, uri, player_name):
@@ -21,16 +30,17 @@ class DiplomacyClient:
         self.turn_counter = 0
         self.units = {}
         self.controlled_territories = set()
-        self.adjacency = {}  # Add this line
-        logging.info(f"DiplomacyClient initialized for {player_name}")
+        self.adjacency = {}
+        self.logger = logging.getLogger(f"Client-{player_name}")
+        self.logger.info(f"DiplomacyClient initialized for {player_name}")
 
     async def connect(self):
         try:
             self.websocket = await websockets.connect(self.uri)
-            logging.info(f"Connected to server at {self.uri}")
+            self.logger.info(f"Connected to server at {self.uri}")
             await self.register()
         except Exception as e:
-            logging.error(f"An error occurred while connecting: {e}")
+            self.logger.error(f"An error occurred while connecting: {e}")
 
     async def register(self):
         try:
@@ -277,6 +287,5 @@ class DiplomacyClient:
         await client.run()
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     client = DiplomacyClient("ws://localhost:8765", f"Player{random.randint(1,100)}")
     asyncio.run(client.run())

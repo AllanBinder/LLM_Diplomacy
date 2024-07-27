@@ -1,16 +1,24 @@
 # diplomacy_server.py
-
 import asyncio
 import websockets
 import json
 import logging
 import signal
 import traceback
+import os
 from diplomacy_base import Game
 
-logging.basicConfig(level=logging.INFO)
+os.makedirs('logs', exist_ok=True)
 
-MAX_TURNS = 100
+# Set up logging to both console and file
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[
+                        logging.FileHandler('logs/server.log'),
+                        logging.StreamHandler()
+                    ])
+
+MAX_TURNS = 3
 
 class DiplomacyServer:
     def __init__(self):
@@ -18,7 +26,7 @@ class DiplomacyServer:
         self.connected_players = {}
         self.lock = asyncio.Lock()
         self.turn_counter = 0
-        self.max_turns = 10  # Set to 10 for a longer game
+        self.max_turns = 3  # Set to 10 for a longer game
         logging.info("DiplomacyServer initialized")
 
     async def register(self, websocket, player_name):
@@ -144,6 +152,6 @@ class DiplomacyServer:
             logging.info("Game ended.")
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.info("Starting the Diplomacy server...")
     server = DiplomacyServer()
     asyncio.run(server.main())
