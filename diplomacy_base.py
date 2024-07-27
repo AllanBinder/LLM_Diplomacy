@@ -420,11 +420,19 @@ class Game:
             source_strength = 1 + support_strength.get(source, 0)
             target_strength = 1 + support_strength.get(target, 0) if target_territory.unit else 0
             
-            if source_strength > target_strength:
+            success_probability = self.check_move_success_probability(source_territory, target_territory, source_territory.unit.type)
+            
+            if source_strength > target_strength and success_probability > 0:
                 successful_moves.append((player, order))
                 logging.info(f"Successful move: {source} to {target}")
+                logging.info(f"Move strength: {source_strength} vs {target_strength}")
+                logging.info(f"Success probability: {success_probability}")
             else:
                 logging.info(f"Failed move: {source} to {target}")
+                logging.info(f"Move strength: {source_strength} vs {target_strength}")
+                logging.info(f"Success probability: {success_probability}")
+                if target_territory.unit:
+                    logging.info(f"Target territory {target} is occupied by {target_territory.unit.type} of {target_territory.owner}")
         
         return successful_moves
 
@@ -453,12 +461,28 @@ class Game:
 
     
     def process_support_orders(self, support_orders):
+        print("Received support orders:", support_orders)
         support_strength = {}
         for player, order in support_orders:
-            _, _, source, target = order
+            print(f"Processing support order: {order}")  # Debug print
+            if len(order) < 3:
+                print(f"Invalid support order from {player}: {order}")
+                continue
+            
+            action = order[1]
+            if action != 'support':
+                print(f"Unexpected action in support order from {player}: {action}")
+                continue
+
+            source = order[2]
+            target = order[3] if len(order) > 3 else None
+
             if source not in support_strength:
                 support_strength[source] = 0
             support_strength[source] += 1
+
+            print(f"Processed: Player {player} supporting from {source} to {target}")  # Debug print
+
         return support_strength
     
     def process_convoy_orders(self, convoy_orders):
@@ -599,11 +623,27 @@ class Game:
             if source_territory.type in ['sea', 'coast'] and target_territory.type == 'sea':
                 logging.info("Fleet move valid: sea/coast to sea")
                 return True
+            if source_territory.type == 'sea' and target_territory.type == 'coast':
+                logging.info("Invalid fleet move: sea to coast")
+                return False
             logging.info(f"Invalid fleet move: {source_territory.type} -> {target_territory.type}")
         else:
             logging.info(f"Invalid unit type: {unit_type}")
         
         return False
+
+    def check_move_success_probability(self, source_territory, target_territory, unit_type):
+        if not self.is_valid_move(source_territory, target_territory, unit_type):
+            return 0  # Move is not valid
+
+        # Check if target is occupied
+        if target_territory.unit:
+            logging.info(f"Target territory {target_territory.name} is occupied by {target_territory.unit.type} of {target_territory.owner}")
+            # Simple logic: 50% chance of success if target is occupied
+            return 0.5
+        else:
+            logging.info(f"Target territory {target_territory.name} is unoccupied")
+            return 1  # 100% chance of success if unoccupied
         
     def retreat_and_disband(self):
         if not self.dislodged_units:

@@ -73,9 +73,18 @@ class DiplomacyServer:
             message += f"{winner} has won the game!"
         else:
             message += "No clear winner."
-        await self.broadcast({"type": "game_end", "message": message})
-        for ws in self.connected_players.values():
-            await ws.close()
+        
+        end_game_message = {"type": "game_end", "message": message}
+        
+        # Create a list of tasks for sending the end game message and closing connections
+        tasks = []
+        for player_name, ws in list(self.connected_players.items()):
+            tasks.append(ws.send(json.dumps(end_game_message)))
+            tasks.append(ws.close())
+            tasks.append(self.unregister(player_name))
+        
+        # Run all tasks concurrently
+        await asyncio.gather(*tasks)
 
     async def handle_orders(self, player_name, orders):
         async with self.lock:
