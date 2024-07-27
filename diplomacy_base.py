@@ -3,6 +3,7 @@
 import random
 import logging
 import json
+import traceback
 
 
 class Territory:
@@ -57,6 +58,16 @@ class Game:
         self.year = 1901
         self.season = 'Spring'
         self.is_active = True
+        self.player_to_country = {
+            "Player1": "England",
+            "Player2": "France",
+            "Player3": "Germany",
+            "Player4": "Italy",
+            "Player5": "Austria",
+            "Player6": "Russia",
+            "Player7": "Turkey"
+        }
+        self.country_to_player = {v: k for k, v in self.player_to_country.items()}
         self.initialize_game()
         logging.basicConfig(level=logging.INFO)
 
@@ -656,9 +667,9 @@ class Game:
             "Y": self.year,
             "S": self.season[0],  # Just the first letter of the season
             "P": {name: len(data["supply_centers"]) for name, data in self.players.items()},
-            "U": {t.name: f"{t.unit.type[0].upper()}{t.owner[0:3].upper()}" 
+            "U": {t.name: f"{t.unit.type[0].upper()}{self.player_to_country.get(t.owner, t.owner)[0:3].upper()}" 
                 for t in self.territories.values() if t.unit},
-            "SC": {t.name: t.owner[0:3].upper() 
+            "SC": {t.name: self.player_to_country.get(t.owner, t.owner)[0:3].upper() 
                 for t in self.territories.values() if t.is_supply_center and t.owner}
         })
 
