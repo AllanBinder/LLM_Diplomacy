@@ -24,12 +24,16 @@ class Territory:
         return False
     
 class Order:
-    def __init__(self, unit, order_type, source, target=None, support_target=None):
-        self.unit = unit
+    def __init__(self, player, unit_type, order_type, source, target=None, support_from=None, support_to=None, convoy_from=None, convoy_to=None):
+        self.player = player
+        self.unit_type = unit_type
         self.type = order_type  # 'move', 'support', 'convoy', 'hold'
         self.source = source
         self.target = target
-        self.support_target = support_target
+        self.support_from = support_from
+        self.support_to = support_to
+        self.convoy_from = convoy_from
+        self.convoy_to = convoy_to
 
 class Player:
     def __init__(self, name):
@@ -312,49 +316,30 @@ class Game:
     def resolve_orders(self):
         logging.info(f"Starting to resolve {len(self.orders)} orders.")
         move_orders = []
+        support_orders = []
+        convoy_orders = []
+
         for player, orders in self.orders.items():
             for order in orders:
-                if order[1] == 'move':
-                    source = self.territories[order[0]]
-                    target = self.territories[order[2]]
-                    unit_type = source.unit.type if source.unit else None
-                    move_orders.append((player, source, target, unit_type))
-        
+                if order.type == 'move':
+                    move_orders.append(order)
+                elif order.type == 'support':
+                    support_orders.append(order)
+                elif order.type == 'convoy':
+                    convoy_orders.append(order)
+
         logging.info(f"Move orders: {len(move_orders)}")
+        logging.info(f"Support orders: {len(support_orders)}")
+        logging.info(f"Convoy orders: {len(convoy_orders)}")
 
-        # Calculate initial strengths
-        strengths = {t: 1 if t.unit else 0 for t in self.territories.values()}
+        # Process support orders
+        support_strengths = self.process_support_orders(support_orders)
 
-        # Add strength for moving units
-        for _, _, target, _ in move_orders:
-            strengths[target] += 1
+        # Process convoy orders
+        convoy_routes = self.process_convoy_orders(convoy_orders)
 
         # Resolve moves
-        successful_moves = []
-        for player, source, target, unit_type in move_orders:
-            logging.info(f"Evaluating move: {source.name} to {target.name}")
-            
-            # Check if the move is valid
-            if not self.is_valid_move(source, target, unit_type):
-                logging.info(f"Invalid move: {source.name} to {target.name}")
-                continue
-
-            # Check for head-to-head battles
-            opposite_move = next((m for m in move_orders if m[2] == source and m[1] == target), None)
-            if opposite_move:
-                if strengths[target] > strengths[source]:
-                    successful_moves.append((player, source, target, unit_type))
-                    logging.info(f"Successful head-to-head move: {source.name} to {target.name}")
-                else:
-                    logging.info(f"Failed head-to-head move: {source.name} to {target.name}")
-                continue
-
-            # Check if move is successful
-            if target.unit is None or strengths[target] <= strengths[source]:
-                successful_moves.append((player, source, target, unit_type))
-                logging.info(f"Successful move: {source.name} to {target.name}")
-            else:
-                logging.info(f"Failed move: {source.name} to {target.name}")
+        successful_moves = self.resolve_moves(move_orders, support_strengths, convoy_routes)
 
         # Execute successful moves
         self.execute_moves(successful_moves)
@@ -369,6 +354,7 @@ class Game:
             
             move_orders = []
             support_orders = []
+            convoy_orders = []
             hold_orders = []
             
             for player, orders in self.orders.items():
@@ -380,6 +366,8 @@ class Game:
                         move_orders.append((player, order))
                     elif order[1] == 'support' and len(order) == 3:
                         support_orders.append((player, order))
+                    elif order[1] == 'convoy' and len(order) == 4:
+                        convoy_orders.append((player, order))
                     elif order[1] == 'hold':
                         hold_orders.append((player, order))
                     else:
@@ -387,10 +375,12 @@ class Game:
 
             logging.info(f"Move orders: {move_orders}")
             logging.info(f"Support orders: {support_orders}")
+            logging.info(f"Convoy orders: {convoy_orders}")
             logging.info(f"Hold orders: {hold_orders}")
 
             support_strength = self.process_support_orders(support_orders)
-            successful_moves = self.resolve_moves(move_orders, support_strength)
+            successful_convoys = self.process_convoy_orders(convoy_orders)
+            successful_moves = self.resolve_moves(move_orders, support_strength, successful_convoys)
             self.process_hold_orders(hold_orders)
             self.execute_moves(successful_moves)
             self.update_game_state()
@@ -401,18 +391,21 @@ class Game:
             logging.error(f"Error during turn resolution: {str(e)}")
             logging.error(f"Traceback: {traceback.format_exc()}")
 
-    def resolve_moves(self, move_orders, support_strength):
+    def resolve_moves(self, move_orders, support_strength, successful_convoys):
         successful_moves = []
         for player, order in move_orders:
-            source, _, target = order
+            source, action, target = order
             if source not in self.territories or target not in self.territories:
                 logging.warning(f"Invalid move: {source} to {target}")
                 continue
+            
             source_territory = self.territories[source]
             target_territory = self.territories[target]
+            
             if source_territory.unit is None:
                 logging.warning(f"No unit in {source}")
                 continue
+            
             if not self.is_valid_move(source_territory, target_territory, source_territory.unit.type):
                 logging.warning(f"Invalid move: {source_territory.unit.type} from {source} to {target}")
                 continue
@@ -457,37 +450,58 @@ class Game:
                     self.players[target_territory.owner]["supply_centers"].remove(target_territory)
 
         logging.info(f"Executed {len(successful_moves)} moves")
-        
 
     
     def process_support_orders(self, support_orders):
-        print("Received support orders:", support_orders)
+        logging.info("Processing support orders")
         support_strength = {}
         for player, order in support_orders:
-            print(f"Processing support order: {order}")  # Debug print
-            if len(order) < 3:
-                print(f"Invalid support order from {player}: {order}")
-                continue
+            logging.info(f"Processing support order: {player} {order[0]} supporting {order[2]}")
             
-            action = order[1]
-            if action != 'support':
-                print(f"Unexpected action in support order from {player}: {action}")
+            if not self.is_valid_support(order):
+                logging.warning(f"Invalid support order from {player}: {order}")
                 continue
 
-            source = order[2]
-            target = order[3] if len(order) > 3 else None
+            source = order[0]
+            support_target = order[2]
 
-            if source not in support_strength:
-                support_strength[source] = 0
-            support_strength[source] += 1
+            if support_target not in support_strength:
+                support_strength[support_target] = 0
+            support_strength[support_target] += 1
 
-            print(f"Processed: Player {player} supporting from {source} to {target}")  # Debug print
+            logging.info(f"Processed: Player {player} supporting from {source} to {support_target}")
 
+        logging.info(f"Final support strengths: {support_strength}")
         return support_strength
+
     
     def process_convoy_orders(self, convoy_orders):
-        # Placeholder for future implementation
-        pass
+        successful_convoys = {}
+        for player, order in convoy_orders:
+            convoying_unit, _, convoy_from, convoy_to = order
+            logging.info(f"Processing convoy order: {player} {convoying_unit} convoying from {convoy_from} to {convoy_to}")
+            
+            # Check if the convoying unit is a fleet in a sea territory
+            if convoying_unit not in self.territories or self.territories[convoying_unit].type != 'sea':
+                logging.warning(f"Invalid convoy: {convoying_unit} is not a sea territory")
+                continue
+            
+            # Check if convoy_from and convoy_to are coastal territories
+            if convoy_from not in self.territories or self.territories[convoy_from].type not in ['coast', 'land']:
+                logging.warning(f"Invalid convoy: {convoy_from} is not a coastal or land territory")
+                continue
+            if convoy_to not in self.territories or self.territories[convoy_to].type not in ['coast', 'land']:
+                logging.warning(f"Invalid convoy: {convoy_to} is not a coastal or land territory")
+                continue
+            
+            # Check if there's a valid path for the convoy
+            if self.check_convoy_path(self.territories[convoy_from], self.territories[convoy_to], self.territories[convoying_unit]):
+                successful_convoys[convoy_from] = convoy_to
+                logging.info(f"Successful convoy: {player} convoying from {convoy_from} to {convoy_to}")
+            else:
+                logging.warning(f"Failed convoy: No valid path from {convoy_from} to {convoy_to}")
+        
+        return successful_convoys
 
     def process_hold_orders(self, hold_orders):
         for player, order in hold_orders:
@@ -589,16 +603,20 @@ class Game:
                 print(f"- {territory.name}: {unit_type}")
             print(f"Supply centers: {len(player.supply_centers)}")
 
-
     
-
-
-
-    
-    def is_valid_support(self, source, support_from, support_to):
-        if source.unit.type != 'fleet' and (support_from.type == 'sea' or (support_to and support_to.type == 'sea')):
+    def is_valid_support(self, order):
+        if len(order) < 3:
             return False
-        return support_from in source.adjacent and (support_to is None or support_to in support_from.adjacent)
+        source = self.territories[order[0]]
+        support_target = self.territories[order[2]]
+        
+        if source.unit is None:
+            return False
+        
+        if support_target not in source.adjacent:
+            return False
+        
+        return True
 
     def is_valid_convoy(self, source, convoy_from, convoy_to):
         return source.unit.type == 'fleet' and source.type == 'sea' and convoy_from.type != 'sea' and convoy_to.type != 'sea'
@@ -716,19 +734,24 @@ class Game:
     def display_game_state_json(self):
         print(self.generate_game_state_json())
 
-    def check_convoy_path(self, start, end, target):
-        # Implement a pathfinding algorithm (e.g., BFS) to check if there's a valid convoy path
-        # This is a simplified version and may need to be expanded for a full implementation
+    def check_convoy_path(self, start, end, via):
         visited = set()
-        queue = [(start, [])]
+        queue = [(start, [start])]
+        
         while queue:
-            current, path = queue.pop(0)
-            if current == end:
-                return True
-            for adj in current.adjacent:
-                if adj.type == 'sea' and adj not in visited:
-                    visited.add(adj)
-                    queue.append((adj, path + [adj]))
+            (territory, path) = queue.pop(0)
+            if territory not in visited:
+                visited.add(territory)
+                
+                if territory == end:
+                    return True
+                
+                for adjacent in territory.adjacent:
+                    if adjacent.type == 'sea' or adjacent == via:
+                        new_path = list(path)
+                        new_path.append(adjacent)
+                        queue.append((adjacent, new_path))
+        
         return False
 
     def check_victory(self):
@@ -738,9 +761,30 @@ class Game:
                 return player_name
         return None
     
-    def end_game(self):
-        self.is_active = False
-    
+    async def end_game(self):
+        winner = self.game.check_victory()
+        message = f"Game ended. "
+        if winner:
+            message += f"{winner} has won the game!"
+        else:
+            message += "No clear winner."
+        
+        end_game_message = {"type": "game_end", "message": message}
+        
+        # Create a list of tasks for sending the end game message and closing connections
+        tasks = []
+        for player_name, ws in list(self.connected_players.items()):
+            tasks.append(ws.send(json.dumps(end_game_message)))
+            tasks.append(ws.close())
+            tasks.append(self.unregister(player_name))
+        
+        # Run all tasks concurrently
+        await asyncio.gather(*tasks)
+
+    async def unregister(self, player_name):
+        if player_name in self.connected_players:
+            del self.connected_players[player_name]
+            logging.info(f"Player {player_name} unregistered. Total players: {len(self.connected_players)}")
 
     def load_test_orders(self, test_orders):
         self.orders = []

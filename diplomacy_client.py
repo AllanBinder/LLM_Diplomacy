@@ -8,7 +8,9 @@ import logging
 import traceback
 import os
 from test_orders import get_orders
-from test_orders import ADJACENCY
+from game_utils import ADJACENCY, get_adjacent_territories
+#from llm_agents.llm_players import LLMPlayerFactory
+
 
 # Create 'logs' directory if it doesn't exist
 os.makedirs('logs', exist_ok=True)
@@ -21,18 +23,19 @@ logging.basicConfig(level=logging.INFO,
                         logging.StreamHandler()
                     ])
 
-class DiplomacyClient:
-    def __init__(self, uri, player_name):
-        self.uri = uri
-        self.player_name = player_name
-        self.websocket = None
-        self.registered = False
-        self.turn_counter = 0
-        self.units = {}
-        self.controlled_territories = set()
-        self.adjacency = {}
-        self.logger = logging.getLogger(f"Client-{player_name}")
-        self.logger.info(f"DiplomacyClient initialized for {player_name}")
+
+def __init__(self, uri, player_name, llm_type, **llm_kwargs):
+    self.uri = uri
+    self.player_name = player_name
+    self.llm_player = LLMPlayerFactory.create_player(llm_type, player_name, **llm_kwargs)
+    self.websocket = None
+    self.registered = False
+    self.turn_counter = 0
+    self.units = {}
+    self.controlled_territories = set()
+    self.adjacency = {}
+    self.logger = logging.getLogger(f"Client-{player_name}")
+    self.logger.info(f"DiplomacyClient initialized for {player_name}")
 
     async def connect(self):
         try:
@@ -181,92 +184,7 @@ class DiplomacyClient:
         else:
             return 'coast'  # Assume any territory not explicitly listed is a coastal territory
 
-    def get_adjacent_territories(self, territory):
-        adjacency = {
-            # Land territories
-            'Clyde': ['Edinburgh', 'Liverpool', 'North Atlantic Ocean', 'Norwegian Sea'],
-            'Edinburgh': ['Clyde', 'Yorkshire', 'North Sea', 'Norwegian Sea'],
-            'Yorkshire': ['Edinburgh', 'Liverpool', 'London', 'North Sea', 'Wales'],
-            'Liverpool': ['Clyde', 'Yorkshire', 'Wales', 'Irish Sea', 'North Atlantic Ocean'],
-            'Wales': ['Liverpool', 'Yorkshire', 'London', 'English Channel', 'Irish Sea'],
-            'London': ['Yorkshire', 'Wales', 'North Sea', 'English Channel'],
-            'Norway': ['St Petersburg', 'Sweden', 'Skagerrak', 'Norwegian Sea', 'Barents Sea', 'Finland'],
-            'Sweden': ['Norway', 'Finland', 'Gulf of Bothnia', 'Baltic Sea', 'Skagerrak', 'Denmark'],
-            'Finland': ['Norway', 'St Petersburg', 'Gulf of Bothnia', 'Sweden'],
-            'St Petersburg': ['Norway', 'Finland', 'Gulf of Bothnia', 'Livonia', 'Moscow', 'Barents Sea'],
-            'Moscow': ['St Petersburg', 'Livonia', 'Ukraine', 'Sevastopol', 'Warsaw'],
-            'Livonia': ['St Petersburg', 'Gulf of Bothnia', 'Baltic Sea', 'Prussia', 'Warsaw', 'Moscow'],
-            'Warsaw': ['Livonia', 'Prussia', 'Silesia', 'Galicia', 'Ukraine', 'Moscow'],
-            'Ukraine': ['Warsaw', 'Galicia', 'Rumania', 'Sevastopol', 'Moscow'],
-            'Sevastopol': ['Ukraine', 'Rumania', 'Black Sea', 'Armenia', 'Moscow'],
-            'Armenia': ['Sevastopol', 'Syria', 'Smyrna', 'Ankara', 'Black Sea'],
-            'Syria': ['Armenia', 'Smyrna', 'Eastern Mediterranean'],
-            'Smyrna': ['Syria', 'Armenia', 'Ankara', 'Constantinople', 'Aegean Sea', 'Eastern Mediterranean'],
-            'Ankara': ['Armenia', 'Smyrna', 'Constantinople', 'Black Sea'],
-            'Constantinople': ['Ankara', 'Smyrna', 'Bulgaria', 'Black Sea', 'Aegean Sea'],
-            'Bulgaria': ['Rumania', 'Constantinople', 'Greece', 'Serbia', 'Black Sea', 'Aegean Sea'],
-            'Rumania': ['Ukraine', 'Galicia', 'Budapest', 'Serbia', 'Bulgaria', 'Black Sea', 'Sevastopol'],
-            'Serbia': ['Budapest', 'Trieste', 'Albania', 'Greece', 'Bulgaria', 'Rumania'],
-            'Greece': ['Serbia', 'Albania', 'Ionian Sea', 'Aegean Sea', 'Bulgaria'],
-            'Albania': ['Serbia', 'Trieste', 'Adriatic Sea', 'Ionian Sea', 'Greece'],
-            'Galicia': ['Warsaw', 'Silesia', 'Bohemia', 'Budapest', 'Rumania', 'Ukraine'],
-            'Budapest': ['Galicia', 'Vienna', 'Trieste', 'Serbia', 'Rumania'],
-            'Vienna': ['Bohemia', 'Tyrolia', 'Trieste', 'Budapest', 'Galicia'],
-            'Bohemia': ['Silesia', 'Munich', 'Tyrolia', 'Vienna', 'Galicia'],
-            'Tyrolia': ['Munich', 'Bohemia', 'Vienna', 'Trieste', 'Venice', 'Piedmont'],
-            'Trieste': ['Venice', 'Tyrolia', 'Vienna', 'Budapest', 'Serbia', 'Albania', 'Adriatic Sea'],
-            'Venice': ['Piedmont', 'Tyrolia', 'Trieste', 'Adriatic Sea', 'Apulia', 'Rome'],
-            'Rome': ['Tuscany', 'Venice', 'Apulia', 'Naples', 'Tyrrhenian Sea'],
-            'Naples': ['Rome', 'Apulia', 'Ionian Sea', 'Tyrrhenian Sea'],
-            'Apulia': ['Venice', 'Rome', 'Naples', 'Adriatic Sea', 'Ionian Sea'],
-            'Tuscany': ['Piedmont', 'Venice', 'Rome', 'Gulf of Lyon', 'Tyrrhenian Sea'],
-            'Piedmont': ['Marseilles', 'Tyrolia', 'Venice', 'Tuscany', 'Gulf of Lyon'],
-            'Marseilles': ['Spain', 'Gascony', 'Burgundy', 'Piedmont', 'Gulf of Lyon'],
-            'Gascony': ['Brest', 'Paris', 'Burgundy', 'Marseilles', 'Spain', 'Mid-Atlantic Ocean'],
-            'Paris': ['Picardy', 'Burgundy', 'Gascony', 'Brest'],
-            'Brest': ['English Channel', 'Picardy', 'Paris', 'Gascony', 'Mid-Atlantic Ocean'],
-            'Picardy': ['Belgium', 'Burgundy', 'Paris', 'Brest', 'English Channel'],
-            'Belgium': ['Holland', 'Ruhr', 'Burgundy', 'Picardy', 'English Channel', 'North Sea'],
-            'Holland': ['North Sea', 'Helgoland Bight', 'Kiel', 'Ruhr', 'Belgium'],
-            'Ruhr': ['Holland', 'Kiel', 'Munich', 'Burgundy', 'Belgium'],
-            'Burgundy': ['Belgium', 'Ruhr', 'Munich', 'Marseilles', 'Gascony', 'Paris', 'Picardy'],
-            'Munich': ['Ruhr', 'Kiel', 'Berlin', 'Silesia', 'Bohemia', 'Tyrolia', 'Burgundy'],
-            'Kiel': ['Denmark', 'Berlin', 'Munich', 'Ruhr', 'Holland', 'Helgoland Bight', 'Baltic Sea'],
-            'Berlin': ['Kiel', 'Baltic Sea', 'Prussia', 'Silesia', 'Munich'],
-            'Prussia': ['Baltic Sea', 'Livonia', 'Warsaw', 'Silesia', 'Berlin'],
-            'Silesia': ['Berlin', 'Prussia', 'Warsaw', 'Galicia', 'Bohemia', 'Munich'],
-            'Denmark': ['Kiel', 'Baltic Sea', 'Sweden', 'Skagerrak', 'North Sea'],
-            'Spain': ['Portugal', 'Gascony', 'Marseilles', 'Gulf of Lyon', 'Western Mediterranean', 'Mid-Atlantic Ocean'],
-            'Portugal': ['Spain', 'Mid-Atlantic Ocean'],
-            
-            # Sea territories
-            'Norwegian Sea': ['North Atlantic Ocean', 'Clyde', 'Edinburgh', 'Norway', 'North Sea', 'Barents Sea'],
-            'Barents Sea': ['Norwegian Sea', 'Norway', 'St Petersburg'],
-            'North Sea': ['Norwegian Sea', 'Edinburgh', 'Yorkshire', 'London', 'English Channel', 'Belgium', 'Holland', 'Helgoland Bight', 'Denmark', 'Skagerrak', 'Norway'],
-            'Skagerrak': ['Norway', 'Sweden', 'Denmark', 'North Sea'],
-            'Helgoland Bight': ['North Sea', 'Denmark', 'Kiel', 'Holland'],
-            'Baltic Sea': ['Gulf of Bothnia', 'Livonia', 'Prussia', 'Berlin', 'Kiel', 'Denmark', 'Sweden'],
-            'Gulf of Bothnia': ['Sweden', 'Finland', 'St Petersburg', 'Livonia', 'Baltic Sea'],
-            'Irish Sea': ['North Atlantic Ocean', 'Liverpool', 'Wales', 'English Channel'],
-            'English Channel': ['Irish Sea', 'Wales', 'London', 'North Sea', 'Belgium', 'Picardy', 'Brest', 'Mid-Atlantic Ocean'],
-            'Mid-Atlantic Ocean': ['North Atlantic Ocean', 'Irish Sea', 'English Channel', 'Brest', 'Gascony', 'Spain', 'Portugal', 'Western Mediterranean', 'North Africa'],
-            'North Atlantic Ocean': ['Norwegian Sea', 'Clyde', 'Liverpool', 'Irish Sea', 'Mid-Atlantic Ocean'],
-            'Western Mediterranean': ['Spain', 'Gulf of Lyon', 'Tyrrhenian Sea', 'Tunis', 'North Africa', 'Mid-Atlantic Ocean'],
-            'Gulf of Lyon': ['Spain', 'Marseilles', 'Piedmont', 'Tuscany', 'Tyrrhenian Sea', 'Western Mediterranean'],
-            'Tyrrhenian Sea': ['Gulf of Lyon', 'Tuscany', 'Rome', 'Naples', 'Ionian Sea', 'Tunis', 'Western Mediterranean'],
-            'Ionian Sea': ['Tyrrhenian Sea', 'Naples', 'Apulia', 'Adriatic Sea', 'Albania', 'Greece', 'Aegean Sea', 'Eastern Mediterranean', 'Tunis'],
-            'Adriatic Sea': ['Venice', 'Trieste', 'Albania', 'Ionian Sea', 'Apulia'],
-            'Aegean Sea': ['Greece', 'Bulgaria', 'Constantinople', 'Smyrna', 'Eastern Mediterranean', 'Ionian Sea'],
-            'Eastern Mediterranean': ['Ionian Sea', 'Aegean Sea', 'Smyrna', 'Syria', 'Egypt'],
-            'Black Sea': ['Bulgaria', 'Rumania', 'Sevastopol', 'Armenia', 'Ankara', 'Constantinople'],
-            
-            # Non-standard territories (often used in variants)
-            'North Africa': ['Mid-Atlantic Ocean', 'Western Mediterranean', 'Tunis'],
-            'Tunis': ['North Africa', 'Western Mediterranean', 'Tyrrhenian Sea', 'Ionian Sea'],
-            'Egypt': ['Eastern Mediterranean'],
-        }
-        return adjacency.get(territory, [])
-
+    
     async def ping(self):
         while True:
             try:

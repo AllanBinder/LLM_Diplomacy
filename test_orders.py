@@ -1,118 +1,13 @@
 import random
+import logging
+from game_utils import get_adjacent_territories, ADJACENCY, INITIAL_POSITIONS, SEA_TERRITORIES, COASTAL_TERRITORIES
+
 
 # This is a placeholder. Replace this with your complete adjacency list.
-ADJACENCY = {
-            # Land territories
-            'Clyde': ['Edinburgh', 'Liverpool', 'North Atlantic Ocean', 'Norwegian Sea'],
-            'Edinburgh': ['Clyde', 'Yorkshire', 'North Sea', 'Norwegian Sea'],
-            'Yorkshire': ['Edinburgh', 'Liverpool', 'London', 'North Sea', 'Wales'],
-            'Liverpool': ['Clyde', 'Yorkshire', 'Wales', 'Irish Sea', 'North Atlantic Ocean'],
-            'Wales': ['Liverpool', 'Yorkshire', 'London', 'English Channel', 'Irish Sea'],
-            'London': ['Yorkshire', 'Wales', 'North Sea', 'English Channel'],
-            'Norway': ['St Petersburg', 'Sweden', 'Skagerrak', 'Norwegian Sea', 'Barents Sea', 'Finland'],
-            'Sweden': ['Norway', 'Finland', 'Gulf of Bothnia', 'Baltic Sea', 'Skagerrak', 'Denmark'],
-            'Finland': ['Norway', 'St Petersburg', 'Gulf of Bothnia', 'Sweden'],
-            'St Petersburg': ['Norway', 'Finland', 'Gulf of Bothnia', 'Livonia', 'Moscow', 'Barents Sea'],
-            'Moscow': ['St Petersburg', 'Livonia', 'Ukraine', 'Sevastopol', 'Warsaw'],
-            'Livonia': ['St Petersburg', 'Gulf of Bothnia', 'Baltic Sea', 'Prussia', 'Warsaw', 'Moscow'],
-            'Warsaw': ['Livonia', 'Prussia', 'Silesia', 'Galicia', 'Ukraine', 'Moscow'],
-            'Ukraine': ['Warsaw', 'Galicia', 'Rumania', 'Sevastopol', 'Moscow'],
-            'Sevastopol': ['Ukraine', 'Rumania', 'Black Sea', 'Armenia', 'Moscow'],
-            'Armenia': ['Sevastopol', 'Syria', 'Smyrna', 'Ankara', 'Black Sea'],
-            'Syria': ['Armenia', 'Smyrna', 'Eastern Mediterranean'],
-            'Smyrna': ['Syria', 'Armenia', 'Ankara', 'Constantinople', 'Aegean Sea', 'Eastern Mediterranean'],
-            'Ankara': ['Armenia', 'Smyrna', 'Constantinople', 'Black Sea'],
-            'Constantinople': ['Ankara', 'Smyrna', 'Bulgaria', 'Black Sea', 'Aegean Sea'],
-            'Bulgaria': ['Rumania', 'Constantinople', 'Greece', 'Serbia', 'Black Sea', 'Aegean Sea'],
-            'Rumania': ['Ukraine', 'Galicia', 'Budapest', 'Serbia', 'Bulgaria', 'Black Sea', 'Sevastopol'],
-            'Serbia': ['Budapest', 'Trieste', 'Albania', 'Greece', 'Bulgaria', 'Rumania'],
-            'Greece': ['Serbia', 'Albania', 'Ionian Sea', 'Aegean Sea', 'Bulgaria'],
-            'Albania': ['Serbia', 'Trieste', 'Adriatic Sea', 'Ionian Sea', 'Greece'],
-            'Galicia': ['Warsaw', 'Silesia', 'Bohemia', 'Budapest', 'Rumania', 'Ukraine'],
-            'Budapest': ['Galicia', 'Vienna', 'Trieste', 'Serbia', 'Rumania'],
-            'Vienna': ['Bohemia', 'Tyrolia', 'Trieste', 'Budapest', 'Galicia'],
-            'Bohemia': ['Silesia', 'Munich', 'Tyrolia', 'Vienna', 'Galicia'],
-            'Tyrolia': ['Munich', 'Bohemia', 'Vienna', 'Trieste', 'Venice', 'Piedmont'],
-            'Trieste': ['Venice', 'Tyrolia', 'Vienna', 'Budapest', 'Serbia', 'Albania', 'Adriatic Sea'],
-            'Venice': ['Piedmont', 'Tyrolia', 'Trieste', 'Adriatic Sea', 'Apulia', 'Rome'],
-            'Rome': ['Tuscany', 'Venice', 'Apulia', 'Naples', 'Tyrrhenian Sea'],
-            'Naples': ['Rome', 'Apulia', 'Ionian Sea', 'Tyrrhenian Sea'],
-            'Apulia': ['Venice', 'Rome', 'Naples', 'Adriatic Sea', 'Ionian Sea'],
-            'Tuscany': ['Piedmont', 'Venice', 'Rome', 'Gulf of Lyon', 'Tyrrhenian Sea'],
-            'Piedmont': ['Marseilles', 'Tyrolia', 'Venice', 'Tuscany', 'Gulf of Lyon'],
-            'Marseilles': ['Spain', 'Gascony', 'Burgundy', 'Piedmont', 'Gulf of Lyon'],
-            'Gascony': ['Brest', 'Paris', 'Burgundy', 'Marseilles', 'Spain', 'Mid-Atlantic Ocean'],
-            'Paris': ['Picardy', 'Burgundy', 'Gascony', 'Brest'],
-            'Brest': ['English Channel', 'Picardy', 'Paris', 'Gascony', 'Mid-Atlantic Ocean'],
-            'Picardy': ['Belgium', 'Burgundy', 'Paris', 'Brest', 'English Channel'],
-            'Belgium': ['Holland', 'Ruhr', 'Burgundy', 'Picardy', 'English Channel', 'North Sea'],
-            'Holland': ['North Sea', 'Helgoland Bight', 'Kiel', 'Ruhr', 'Belgium'],
-            'Ruhr': ['Holland', 'Kiel', 'Munich', 'Burgundy', 'Belgium'],
-            'Burgundy': ['Belgium', 'Ruhr', 'Munich', 'Marseilles', 'Gascony', 'Paris', 'Picardy'],
-            'Munich': ['Ruhr', 'Kiel', 'Berlin', 'Silesia', 'Bohemia', 'Tyrolia', 'Burgundy'],
-            'Kiel': ['Denmark', 'Berlin', 'Munich', 'Ruhr', 'Holland', 'Helgoland Bight', 'Baltic Sea'],
-            'Berlin': ['Kiel', 'Baltic Sea', 'Prussia', 'Silesia', 'Munich'],
-            'Prussia': ['Baltic Sea', 'Livonia', 'Warsaw', 'Silesia', 'Berlin'],
-            'Silesia': ['Berlin', 'Prussia', 'Warsaw', 'Galicia', 'Bohemia', 'Munich'],
-            'Denmark': ['Kiel', 'Baltic Sea', 'Sweden', 'Skagerrak', 'North Sea'],
-            'Spain': ['Portugal', 'Gascony', 'Marseilles', 'Gulf of Lyon', 'Western Mediterranean', 'Mid-Atlantic Ocean'],
-            'Portugal': ['Spain', 'Mid-Atlantic Ocean'],
-            
-            # Sea territories
-            'Norwegian Sea': ['North Atlantic Ocean', 'Clyde', 'Edinburgh', 'Norway', 'North Sea', 'Barents Sea'],
-            'Barents Sea': ['Norwegian Sea', 'Norway', 'St Petersburg'],
-            'North Sea': ['Norwegian Sea', 'Edinburgh', 'Yorkshire', 'London', 'English Channel', 'Belgium', 'Holland', 'Helgoland Bight', 'Denmark', 'Skagerrak', 'Norway'],
-            'Skagerrak': ['Norway', 'Sweden', 'Denmark', 'North Sea'],
-            'Helgoland Bight': ['North Sea', 'Denmark', 'Kiel', 'Holland'],
-            'Baltic Sea': ['Gulf of Bothnia', 'Livonia', 'Prussia', 'Berlin', 'Kiel', 'Denmark', 'Sweden'],
-            'Gulf of Bothnia': ['Sweden', 'Finland', 'St Petersburg', 'Livonia', 'Baltic Sea'],
-            'Irish Sea': ['North Atlantic Ocean', 'Liverpool', 'Wales', 'English Channel'],
-            'English Channel': ['Irish Sea', 'Wales', 'London', 'North Sea', 'Belgium', 'Picardy', 'Brest', 'Mid-Atlantic Ocean'],
-            'Mid-Atlantic Ocean': ['North Atlantic Ocean', 'Irish Sea', 'English Channel', 'Brest', 'Gascony', 'Spain', 'Portugal', 'Western Mediterranean', 'North Africa'],
-            'North Atlantic Ocean': ['Norwegian Sea', 'Clyde', 'Liverpool', 'Irish Sea', 'Mid-Atlantic Ocean'],
-            'Western Mediterranean': ['Spain', 'Gulf of Lyon', 'Tyrrhenian Sea', 'Tunis', 'North Africa', 'Mid-Atlantic Ocean'],
-            'Gulf of Lyon': ['Spain', 'Marseilles', 'Piedmont', 'Tuscany', 'Tyrrhenian Sea', 'Western Mediterranean'],
-            'Tyrrhenian Sea': ['Gulf of Lyon', 'Tuscany', 'Rome', 'Naples', 'Ionian Sea', 'Tunis', 'Western Mediterranean'],
-            'Ionian Sea': ['Tyrrhenian Sea', 'Naples', 'Apulia', 'Adriatic Sea', 'Albania', 'Greece', 'Aegean Sea', 'Eastern Mediterranean', 'Tunis'],
-            'Adriatic Sea': ['Venice', 'Trieste', 'Albania', 'Ionian Sea', 'Apulia'],
-            'Aegean Sea': ['Greece', 'Bulgaria', 'Constantinople', 'Smyrna', 'Eastern Mediterranean', 'Ionian Sea'],
-            'Eastern Mediterranean': ['Ionian Sea', 'Aegean Sea', 'Smyrna', 'Syria', 'Egypt'],
-            'Black Sea': ['Bulgaria', 'Rumania', 'Sevastopol', 'Armenia', 'Ankara', 'Constantinople'],
-            
-            # Non-standard territories (often used in variants)
-            'North Africa': ['Mid-Atlantic Ocean', 'Western Mediterranean', 'Tunis'],
-            'Tunis': ['North Africa', 'Western Mediterranean', 'Tyrrhenian Sea', 'Ionian Sea'],
-            'Egypt': ['Eastern Mediterranean'],
-        }
 
-# Initial positions of units for each country
-INITIAL_POSITIONS = {
-    'England': {'London': 'fleet', 'Edinburgh': 'fleet', 'Liverpool': 'army'},
-    'France': {'Paris': 'army', 'Marseilles': 'army', 'Brest': 'fleet'},
-    'Germany': {'Berlin': 'army', 'Kiel': 'fleet', 'Munich': 'army'},
-    'Italy': {'Rome': 'army', 'Venice': 'army', 'Naples': 'fleet'},
-    'Austria': {'Vienna': 'army', 'Budapest': 'army', 'Trieste': 'fleet'},
-    'Russia': {'Moscow': 'army', 'Sevastopol': 'fleet', 'St Petersburg': 'fleet', 'Warsaw': 'army'},
-    'Turkey': {'Constantinople': 'army', 'Ankara': 'army', 'Smyrna': 'fleet'}
-}
 
-SEA_TERRITORIES = {
-    'North Atlantic Ocean', 'Norwegian Sea', 'Barents Sea', 'North Sea', 'Skagerrak',
-    'Helgoland Bight', 'Baltic Sea', 'Gulf of Bothnia', 'Irish Sea', 'English Channel',
-    'Mid-Atlantic Ocean', 'Western Mediterranean', 'Gulf of Lyon', 'Tyrrhenian Sea',
-    'Ionian Sea', 'Adriatic Sea', 'Aegean Sea', 'Eastern Mediterranean', 'Black Sea'
-}
-
-COASTAL_TERRITORIES = {
-    'Clyde', 'Edinburgh', 'Yorkshire', 'London', 'Wales', 'Liverpool', 'Norway',
-    'Sweden', 'Denmark', 'Holland', 'Belgium', 'Brest', 'Picardy', 'Spain', 'Portugal',
-    'Gascony', 'Marseilles', 'Piedmont', 'Tuscany', 'Rome', 'Naples', 'Apulia', 'Venice',
-    'Trieste', 'Albania', 'Greece', 'Bulgaria', 'Constantinople', 'Smyrna', 'Syria',
-    'Sevastopol', 'Rumania', 'St Petersburg'
-}
-
-def generate_random_move(territory, unit_type, adjacency):
-    possible_targets = [t for t in adjacency.get(territory, []) if is_valid_move(territory, t, unit_type, adjacency)]
+def generate_random_move(territory, unit_type, get_adjacent_territories_func):
+    possible_targets = [t for t in get_adjacent_territories_func(territory) if is_valid_move(territory, t, unit_type, get_adjacent_territories_func)]
     
     if possible_targets:
         target = random.choice(possible_targets)
@@ -120,8 +15,8 @@ def generate_random_move(territory, unit_type, adjacency):
     else:
         return (territory, 'hold')
 
-def is_valid_move(source, target, unit_type, adjacency):
-    if target not in adjacency.get(source, []):
+def is_valid_move(source, target, unit_type, get_adjacent_territories_func):
+    if target not in get_adjacent_territories_func(source):
         return False
     if unit_type == 'A':
         return target not in SEA_TERRITORIES
@@ -142,25 +37,56 @@ def generate_country_orders(units, controlled_territories):
             orders.append(move)
     return orders
 
-def get_orders(country, units, controlled_territories, adjacency):
+
+def find_possible_convoy_routes(sea_territory, get_adjacent_territories):
+    adjacent_coasts = [t for t in get_adjacent_territories(sea_territory) if t in COASTAL_TERRITORIES]
+    possible_routes = []
+    for source in adjacent_coasts:
+        for target in adjacent_coasts:
+            if source != target:
+                possible_routes.append((source, target))
+    return possible_routes
+
+def get_orders(country, units, controlled_territories, get_adjacent_territories_func):
     orders = []
+    logging.info(f"Generating orders for {country}")
     for territory, unit_type in units.items():
-        if random.random() < 0.2:  # 20% chance to hold
+        if random.random() < 0.1:  # 10% chance to hold
             orders.append((territory, 'hold'))
+            logging.info(f"Generated hold order for {territory}")
+        elif unit_type == 'F' and territory in SEA_TERRITORIES and random.random() < 0.3:  # 30% chance for fleets in sea to convoy
+            possible_convoy_routes = find_possible_convoy_routes(territory, get_adjacent_territories_func)
+            if possible_convoy_routes:
+                convoy_from, convoy_to = random.choice(possible_convoy_routes)
+                orders.append((territory, 'convoy', convoy_from, convoy_to))
+                logging.info(f"Generated convoy order for {territory}: {convoy_from} to {convoy_to}")
         else:
-            move = generate_random_move(territory, unit_type, adjacency)
+            move = generate_random_move(territory, unit_type, get_adjacent_territories_func)
             orders.append(move)
+            logging.info(f"Generated move order for {territory}: {move}")
     
-    # Generate support orders for units without moves
-    for territory in controlled_territories:
-        if territory not in units and random.random() < 0.3:  # 30% chance to support
-            adjacent_units = [t for t in adjacency.get(territory, []) if t in units]
-            if adjacent_units:
-                support_target = random.choice(adjacent_units)
+    # Generate support orders for units
+    for territory, unit_type in units.items():
+        if random.random() < 0.3:  # 30% chance to support
+            adjacent_territories = get_adjacent_territories_func(territory)
+            possible_support_targets = [t for t in adjacent_territories if t in controlled_territories]
+            if possible_support_targets:
+                support_target = random.choice(possible_support_targets)
                 orders.append((territory, 'support', support_target))
+                logging.info(f"Generated support order for {territory}: supporting {support_target}")
     
+    logging.info(f"Final orders for {country}: {orders}")
     return orders
 
+def find_possible_convoy_routes(sea_territory, get_adjacent_territories_func):
+    adjacent_coasts = [t for t in get_adjacent_territories_func(sea_territory) if t in COASTAL_TERRITORIES]
+    possible_routes = []
+    for source in adjacent_coasts:
+        for target in adjacent_coasts:
+            if source != target:
+                possible_routes.append((source, target))
+    return possible_routes
+    
 # Example usage
 if __name__ == "__main__":
     test_units = {'London': 'F', 'Edinburgh': 'F', 'Liverpool': 'A'}
