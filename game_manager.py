@@ -41,23 +41,20 @@ class GameManager:
 
     def _process_negotiations(self):
         logger.info("Processing negotiations")
-        game_state = json.loads(self.game.generate_game_state_json())
+        game_state = self.game.generate_game_state_json()
         for proposing_country, proposing_player in self.players.items():
             for target_country, target_player in self.players.items():
                 if proposing_country != target_country:
-                    result = NegotiationSystem.execute_negotiation(
-                        proposing_player, target_player, game_state, 
-                        is_gpt_player=isinstance(proposing_player, GPT4MiniPlayer),
-                        is_target_gpt_player=isinstance(target_player, GPT4MiniPlayer)
-                    )
-                    logger.info(f"Negotiation between {proposing_country} and {target_country}: {result['status']}")
-                    logger.info(f"Messages: {result.get('messages', [])}")
-                    if result['status'] == 'accepted':
+                    proposal = NegotiationSystem.generate_proposal(game_state, proposing_country, target_country)
+                    result = proposing_player.negotiate(target_country, proposal, game_state)
+                    logger.info(f"Negotiation between {proposing_country} and {target_country}: {result['outcome']}")
+                    if "agreement" in result['outcome'].lower():
                         print(f"Agreement reached between {proposing_country} and {target_country}")
+
 
     def _collect_orders(self):
         logger.info("Collecting orders")
-        game_state = json.loads(self.game.generate_game_state_json())
+        game_state = self.game.generate_game_state_json()
         orders = {}
         for country, player in self.players.items():
             logger.info(f"Generating orders for {country}")

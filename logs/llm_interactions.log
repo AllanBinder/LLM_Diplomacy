@@ -5960,3 +5960,114 @@ So the final orders would be:
 
 This set of moves secures your position in Norway and Rumania while maintaining stability in Moscow. It also begins to roll into a position of strength against your neighbors.
 2024-07-29 13:20:21,263 - INFO - --------------------------------------------------
+2024-07-29 16:07:42,002 - INFO - Country: England
+2024-07-29 16:07:42,003 - INFO - Model: gpt-4o-mini
+2024-07-29 16:07:42,003 - INFO - Prompt:
+
+        Current game state:
+        Year: 1901, Season: S
+        Your country: England
+        Your supply centers: London
+        Your units: London: FENG
+        Player scores: {'ENG': 1}
+
+        Possible moves:
+        ('London', 'move', 'Yorkshire'), ('London', 'move', 'Wales'), ('London', 'move', 'North Sea'), ('London', 'move', 'English Channel'), ('London', 'hold')
+
+        Based on this information, what orders should you give to your units? Consider your strategic position, potential alliances, and the actions of other players. Provide your orders in the format:
+        (Territory, Action, Target) for each unit, e.g., (London, move, North Sea). Do not give an explination for your actions.
+        
+2024-07-29 16:07:42,003 - INFO - Response:
+(London, hold)
+2024-07-29 16:07:42,003 - INFO - --------------------------------------------------
+2024-07-29 16:07:42,005 - INFO - Country: England
+2024-07-29 16:07:42,005 - INFO - Model: gpt-4o-mini
+2024-07-29 16:07:42,005 - INFO - Prompt:
+
+        You are England. Current state: {'supply_centers': {}, 'units': {}, 'player_scores': {}, 'year': 1901, 'season': 'S'}
+        
+        Previous negotiations with France:
+        
+
+        Your proposal to France: Non-aggression pact
+
+        Respond to France. Be strategic and consider past interactions.
+        Provide a clear response (accept, reject, or counter-propose) and a brief explanation.
+        
+2024-07-29 16:07:42,005 - INFO - Response:
+Accept the proposal
+2024-07-29 16:07:42,005 - INFO - --------------------------------------------------
+2024-07-29 16:12:49,683 - INFO - Country: England
+2024-07-29 16:12:49,683 - INFO - Model: gpt-4o-mini
+2024-07-29 16:12:49,683 - INFO - Prompt:
+
+        Current game state:
+        Year: 1901, Season: S
+        Your country: England
+        Your supply centers: London
+        Your units: London: FENG
+        Player scores: {'ENG': 1}
+
+        Possible moves:
+        ('London', 'move', 'Yorkshire'), ('London', 'move', 'Wales'), ('London', 'move', 'North Sea'), ('London', 'move', 'English Channel'), ('London', 'hold')
+
+        Based on this information, what orders should you give to your units? Consider your strategic position, potential alliances, and the actions of other players. Provide your orders in the format:
+        (Territory, Action, Target) for each unit, e.g., (London, move, North Sea). Do not give an explination for your actions.
+        
+2024-07-29 16:12:49,684 - INFO - Response:
+(London, hold)
+2024-07-29 16:12:49,684 - INFO - --------------------------------------------------
+2024-07-29 16:12:49,686 - INFO - Country: England
+2024-07-29 16:12:49,686 - INFO - Model: gpt-4o-mini
+2024-07-29 16:12:49,686 - INFO - Prompt:
+
+        You are England. Current state: {'supply_centers': {}, 'units': {}, 'player_scores': {}, 'year': 1901, 'season': 'S'}
+        
+        Previous negotiations with France:
+        
+
+        Your proposal to France: Non-aggression pact
+
+        Respond to France. Be strategic and consider past interactions.
+        Provide a clear response (accept, reject, or counter-propose) and a brief explanation.
+        
+2024-07-29 16:12:49,686 - INFO - Response:
+Accept the proposal
+2024-07-29 16:12:49,686 - INFO - --------------------------------------------------
+2024-07-29 16:15:13,561 - INFO - Country: England
+2024-07-29 16:15:13,562 - INFO - Model: gpt-4o-mini
+2024-07-29 16:15:13,562 - INFO - Prompt:
+
+        Current game state:
+        Year: 1901, Season: S
+        Your country: England
+        Your supply centers: London
+        Your units: London: FENG
+        Player scores: {'ENG': 1}
+
+        Possible moves:
+        ('London', 'move', 'Yorkshire'), ('London', 'move', 'Wales'), ('London', 'move', 'North Sea'), ('London', 'move', 'English Channel'), ('London', 'hold')
+
+        Based on this information, what orders should you give to your units? Consider your strategic position, potential alliances, and the actions of other players. Provide your orders in the format:
+        (Territory, Action, Target) for each unit, e.g., (London, move, North Sea). Do not give an explination for your actions.
+        
+2024-07-29 16:15:13,563 - INFO - Response:
+(London, hold)
+2024-07-29 16:15:13,563 - INFO - --------------------------------------------------
+2024-07-29 16:15:13,574 - INFO - Country: England
+2024-07-29 16:15:13,575 - INFO - Model: gpt-4o-mini
+2024-07-29 16:15:13,576 - INFO - Prompt:
+
+        You are England. Current state: {'supply_centers': {}, 'units': {}, 'player_scores': {}, 'year': 1901, 'season': 'S'}
+        
+        Previous negotiations with France:
+        
+
+        Your proposal to France: Non-aggression pact
+
+        Respond to France. Be strategic and consider past interactions.
+        Provide a clear response (accept, reject, or counter-propose) and a brief explanation.
+        
+2024-07-29 16:15:13,576 - INFO - Response:
+Accept the proposal
+2024-07-29 16:15:13,576 - INFO - --------------------------------------------------

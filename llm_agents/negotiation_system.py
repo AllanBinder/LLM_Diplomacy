@@ -1,4 +1,5 @@
 from .llm_gameplay_logic import LLMGameplayLogic
+from log_config import logger
 
 class NegotiationSystem:
     @staticmethod
@@ -16,8 +17,7 @@ class NegotiationSystem:
 
         Format your proposal as a clear, numbered list of suggested actions and their benefits.
         """
-        # TODO: Use the LLM to generate the proposal based on this prompt
-        # For now, return a dummy proposal
+        # This should be replaced with an actual LLM call in a real implementation
         return "1. Mutual non-aggression pact\n2. Share intelligence on other players"
 
 
@@ -51,17 +51,19 @@ class NegotiationSystem:
 
 
     @staticmethod
-    def format_negotiation_prompt(analyzed_state, proposing_country, target_country, proposal, previous_negotiations):
-        negotiation_history = "\n".join([f"{neg['turn']} {neg['season']} - {neg['from']} to {neg['to']}: {neg['message']}" for neg in previous_negotiations[-10:]])
+    def format_negotiation_prompt(game_state, proposing_country, target_country, proposal, previous_negotiations):
+        analyzed_state = LLMGameplayLogic.analyze_game_state(game_state)
+        negotiation_history = "\n".join([f"{neg['turn']} {neg['season']} - Outcome: {neg['outcome']}" for neg in previous_negotiations[-5:]])
         return f"""
-        You are {proposing_country}. Current state: Y{analyzed_state['year']}{analyzed_state['season']}, SC:{len(analyzed_state['supply_centers'])}, Units:{len(analyzed_state['units'])}
+        You are {proposing_country}. Current state: {analyzed_state}
         
         Previous negotiations with {target_country}:
         {negotiation_history}
 
         Your proposal to {target_country}: {proposal}
 
-        Respond concisely (max 50 words) to {target_country}. Be strategic and consider past interactions.
+        Respond to {target_country}. Be strategic and consider past interactions.
+        Provide a clear response (accept, reject, or counter-propose) and a brief explanation.
         """
 
     @staticmethod

@@ -1,4 +1,5 @@
 from game_utils import ADJACENCY, SEA_TERRITORIES, COASTAL_TERRITORIES, get_adjacent_territories
+from log_config import logger
 import json
 
 
