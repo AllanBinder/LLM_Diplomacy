@@ -63,14 +63,14 @@ class Game:
         self.season = 'Spring'
         self.is_active = True
         self.player_to_country = {
-            "Player1": "England",
-            "Player2": "France",
-            "Player3": "Germany",
-            "Player4": "Italy",
-            "Player5": "Austria",
-            "Player6": "Russia",
-            "Player7": "Turkey"
-        }
+                "England": "England",
+                "France": "France",
+                "Germany": "Germany",
+                "Italy": "Italy",
+                "Austria": "Austria",
+                "Russia": "Russia",
+                "Turkey": "Turkey"
+            }
         self.country_to_player = {v: k for k, v in self.player_to_country.items()}
         self.initialize_game()
         logging.basicConfig(level=logging.INFO)
@@ -274,8 +274,9 @@ class Game:
             self.year += 1
         return self.generate_game_state_json()
 
-    def submit_orders(self, player_name, orders):
-        self.orders[player_name] = orders
+    def submit_orders(self, orders):
+        self.orders = orders
+        logging.info(f"Submitted orders: {orders}")
         return self.all_orders_received(), self.generate_game_state_json()
     
     def all_orders_received(self):
@@ -357,21 +358,21 @@ class Game:
             convoy_orders = []
             hold_orders = []
             
-            for player, orders in self.orders.items():
-                for order in orders:
+            for country, country_orders in self.orders.items():
+                for order in country_orders:
                     if len(order) < 2:
-                        logging.warning(f"Invalid order format from {player}: {order}")
+                        logging.warning(f"Invalid order format from {country}: {order}")
                         continue
                     if order[1] == 'move' and len(order) == 3:
-                        move_orders.append((player, order))
+                        move_orders.append((country, order))
                     elif order[1] == 'support' and len(order) == 3:
-                        support_orders.append((player, order))
+                        support_orders.append((country, order))
                     elif order[1] == 'convoy' and len(order) == 4:
-                        convoy_orders.append((player, order))
+                        convoy_orders.append((country, order))
                     elif order[1] == 'hold':
-                        hold_orders.append((player, order))
+                        hold_orders.append((country, order))
                     else:
-                        logging.warning(f"Invalid order type from {player}: {order}")
+                        logging.warning(f"Invalid order type from {country}: {order}")
 
             logging.info(f"Move orders: {move_orders}")
             logging.info(f"Support orders: {support_orders}")
@@ -390,9 +391,16 @@ class Game:
         except Exception as e:
             logging.error(f"Error during turn resolution: {str(e)}")
             logging.error(f"Traceback: {traceback.format_exc()}")
-
+        
+        # Clear orders for the next turn
+        self.orders.clear()
+        
     def resolve_moves(self, move_orders, support_strength, successful_convoys):
         successful_moves = []
+        standoffs = set()
+
+        # First pass: Determine all potential moves and their strengths
+        potential_moves = {}
         for player, order in move_orders:
             source, action, target = order
             if source not in self.territories or target not in self.territories:
@@ -411,44 +419,75 @@ class Game:
                 continue
             
             source_strength = 1 + support_strength.get(source, 0)
+            
+            if target not in potential_moves:
+                potential_moves[target] = []
+            potential_moves[target].append((player, order, source_strength))
+
+        # Second pass: Resolve conflicts and determine successful moves
+        for target, moves in potential_moves.items():
+            target_territory = self.territories[target]
             target_strength = 1 + support_strength.get(target, 0) if target_territory.unit else 0
             
-            success_probability = self.check_move_success_probability(source_territory, target_territory, source_territory.unit.type)
-            
-            if source_strength > target_strength and success_probability > 0:
-                successful_moves.append((player, order))
-                logging.info(f"Successful move: {source} to {target}")
-                logging.info(f"Move strength: {source_strength} vs {target_strength}")
-                logging.info(f"Success probability: {success_probability}")
+            if len(moves) == 1:
+                player, order, source_strength = moves[0]
+                success_probability = self.check_move_success_probability(self.territories[order[0]], target_territory, self.territories[order[0]].unit.type)
+                
+                if source_strength > target_strength and success_probability > random.random():
+                    successful_moves.append((player, order))
+                    logging.info(f"Successful move: {order[0]} to {target}")
+                    logging.info(f"Move strength: {source_strength} vs {target_strength}")
+                    logging.info(f"Success probability: {success_probability}")
+                else:
+                    logging.info(f"Failed move: {order[0]} to {target}")
+                    logging.info(f"Move strength: {source_strength} vs {target_strength}")
+                    logging.info(f"Success probability: {success_probability}")
             else:
-                logging.info(f"Failed move: {source} to {target}")
-                logging.info(f"Move strength: {source_strength} vs {target_strength}")
-                logging.info(f"Success probability: {success_probability}")
-                if target_territory.unit:
-                    logging.info(f"Target territory {target} is occupied by {target_territory.unit.type} of {target_territory.owner}")
-        
+                # Multiple units trying to move to the same territory
+                max_strength = max(strength for _, _, strength in moves)
+                strongest_moves = [(player, order) for player, order, strength in moves if strength == max_strength]
+                
+                if len(strongest_moves) == 1:
+                    # One unit has the highest strength, it succeeds
+                    successful_moves.append(strongest_moves[0])
+                    logging.info(f"Successful move in conflict: {strongest_moves[0][1][0]} to {target}")
+                else:
+                    # Standoff occurs
+                    standoffs.add(target)
+                    logging.info(f"Standoff at {target}")
+
+        # Handle convoy moves
+        for source, target in successful_convoys.items():
+            convoying_order = next((order for _, order in move_orders if order[0] == source and order[2] == target), None)
+            if convoying_order:
+                successful_moves.append((self.territories[source].owner, convoying_order))
+                logging.info(f"Successful convoy: {source} to {target}")
+
+        # Log failed moves due to standoffs
+        for player, order in move_orders:
+            if order[2] in standoffs and (player, order) not in successful_moves:
+                logging.info(f"Move failed due to standoff: {order[0]} to {order[2]}")
+
         return successful_moves
 
     def execute_moves(self, successful_moves):
-        self.dislodged_units = {}
         for player, order in successful_moves:
             source, _, target = order
             source_territory = self.territories[source]
             target_territory = self.territories[target]
-
-            if target_territory.unit:
-                self.dislodged_units[target] = target_territory.unit
-
+            
+            # Move the unit
             target_territory.unit = source_territory.unit
             source_territory.unit = None
-            target_territory.owner = player
-
+            
+            # Update ownership if the target is a supply center
             if target_territory.is_supply_center:
-                if target not in self.players[player]["supply_centers"]:
+                if target_territory.owner != player:
+                    if target_territory.owner:
+                        self.players[target_territory.owner]["supply_centers"].remove(target_territory)
                     self.players[player]["supply_centers"].append(target_territory)
-                if target_territory.owner and target_territory.owner != player:
-                    self.players[target_territory.owner]["supply_centers"].remove(target_territory)
-
+                target_territory.owner = player
+            
         logging.info(f"Executed {len(successful_moves)} moves")
 
     
@@ -723,14 +762,14 @@ class Game:
     def generate_game_state_json(self):
         return json.dumps({
             "Y": self.year,
-            "S": self.season[0],  # Just the first letter of the season
-            "P": {name: len(data["supply_centers"]) for name, data in self.players.items()},
-            "U": {t.name: f"{t.unit.type[0].upper()}{self.player_to_country.get(t.owner, t.owner)[0:3].upper()}" 
-                for t in self.territories.values() if t.unit},
-            "SC": {t.name: self.player_to_country.get(t.owner, t.owner)[0:3].upper() 
+            "S": self.season[0],
+            "P": {name: len(self.players[name]["supply_centers"]) for name in self.players},
+            "U": {t.name: f"{t.unit.type[0].upper()}{t.owner[:3].upper()}" 
+                for t in self.territories.values() if t.unit and t.owner},
+            "SC": {t.name: t.owner[:3].upper() 
                 for t in self.territories.values() if t.is_supply_center and t.owner}
         })
-
+    
     def display_game_state_json(self):
         print(self.generate_game_state_json())
 

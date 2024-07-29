@@ -23,19 +23,19 @@ logging.basicConfig(level=logging.INFO,
                         logging.StreamHandler()
                     ])
 
-
-def __init__(self, uri, player_name, llm_type, **llm_kwargs):
-    self.uri = uri
-    self.player_name = player_name
-    self.llm_player = LLMPlayerFactory.create_player(llm_type, player_name, **llm_kwargs)
-    self.websocket = None
-    self.registered = False
-    self.turn_counter = 0
-    self.units = {}
-    self.controlled_territories = set()
-    self.adjacency = {}
-    self.logger = logging.getLogger(f"Client-{player_name}")
-    self.logger.info(f"DiplomacyClient initialized for {player_name}")
+class DiplomacyClient:
+    def __init__(self, uri, player_name, llm_type, **llm_kwargs):
+        self.uri = uri
+        self.player_name = player_name
+        self.llm_player = LLMPlayerFactory.create_player(llm_type, player_name, **llm_kwargs)
+        self.websocket = None
+        self.registered = False
+        self.turn_counter = 0
+        self.units = {}
+        self.controlled_territories = set()
+        self.adjacency = {}
+        self.logger = logging.getLogger(f"Client-{player_name}")
+        self.logger.info(f"DiplomacyClient initialized for {player_name}")
 
     async def connect(self):
         try:

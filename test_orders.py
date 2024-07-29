@@ -16,16 +16,24 @@ def generate_random_move(territory, unit_type, get_adjacent_territories_func):
         return (territory, 'hold')
 
 def is_valid_move(source, target, unit_type, get_adjacent_territories_func):
+    logging.info(f"Checking if move from {source} to {target} is valid for unit type {unit_type}")
+    
     if target not in get_adjacent_territories_func(source):
+        logging.info(f"Move from {source} to {target} is invalid: not adjacent")
         return False
-    if unit_type == 'A':
-        return target not in SEA_TERRITORIES
-    elif unit_type == 'F':
+    
+    if unit_type.startswith('A'):  # Army
+        valid = target not in SEA_TERRITORIES
+    elif unit_type.startswith('F'):  # Fleet
         if source in COASTAL_TERRITORIES and target in COASTAL_TERRITORIES:
-            return True
-        if source in SEA_TERRITORIES or target in SEA_TERRITORIES:
-            return True
-    return False
+            valid = True
+        else:
+            valid = target in SEA_TERRITORIES or (source in SEA_TERRITORIES and target in COASTAL_TERRITORIES)
+    else:
+        valid = False
+    
+    logging.info(f"Move from {source} to {target} is {'valid' if valid else 'invalid'}")
+    return valid
 
 def generate_country_orders(units, controlled_territories):
     orders = []
@@ -47,33 +55,42 @@ def find_possible_convoy_routes(sea_territory, get_adjacent_territories):
                 possible_routes.append((source, target))
     return possible_routes
 
+
 def get_orders(country, units, controlled_territories, get_adjacent_territories_func):
-    orders = []
     logging.info(f"Generating orders for {country}")
+    logging.info(f"Units: {units}")
+    logging.info(f"Controlled territories: {controlled_territories}")
+    orders = []
     for territory, unit_type in units.items():
-        if random.random() < 0.1:  # 10% chance to hold
-            orders.append((territory, 'hold'))
-            logging.info(f"Generated hold order for {territory}")
-        elif unit_type == 'F' and territory in SEA_TERRITORIES and random.random() < 0.3:  # 30% chance for fleets in sea to convoy
-            possible_convoy_routes = find_possible_convoy_routes(territory, get_adjacent_territories_func)
-            if possible_convoy_routes:
-                convoy_from, convoy_to = random.choice(possible_convoy_routes)
-                orders.append((territory, 'convoy', convoy_from, convoy_to))
-                logging.info(f"Generated convoy order for {territory}: {convoy_from} to {convoy_to}")
-        else:
-            move = generate_random_move(territory, unit_type, get_adjacent_territories_func)
-            orders.append(move)
-            logging.info(f"Generated move order for {territory}: {move}")
-    
-    # Generate support orders for units
-    for territory, unit_type in units.items():
-        if random.random() < 0.3:  # 30% chance to support
-            adjacent_territories = get_adjacent_territories_func(territory)
-            possible_support_targets = [t for t in adjacent_territories if t in controlled_territories]
+        adjacent_territories = get_adjacent_territories_func(territory)
+        logging.info(f"Adjacent territories for {territory}: {adjacent_territories}")
+        
+        move_roll = random.random()
+        logging.info(f"Move roll for {territory}: {move_roll}")
+        
+        if move_roll < 0.5:  # 50% chance to move
+            possible_moves = [t for t in adjacent_territories if is_valid_move(territory, t, unit_type, get_adjacent_territories_func)]
+            logging.info(f"Possible moves for {territory}: {possible_moves}")
+            if possible_moves:
+                target = random.choice(possible_moves)
+                orders.append((territory, 'move', target))
+                logging.info(f"Chose to move {territory} to {target}")
+            else:
+                orders.append((territory, 'hold'))
+                logging.info(f"No valid moves for {territory}, holding")
+        elif move_roll < 0.8:  # 30% chance to support
+            possible_support_targets = [t for t in adjacent_territories if t in controlled_territories and t != territory]
+            logging.info(f"Possible support targets for {territory}: {possible_support_targets}")
             if possible_support_targets:
                 support_target = random.choice(possible_support_targets)
                 orders.append((territory, 'support', support_target))
-                logging.info(f"Generated support order for {territory}: supporting {support_target}")
+                logging.info(f"Chose to support from {territory} to {support_target}")
+            else:
+                orders.append((territory, 'hold'))
+                logging.info(f"No valid support targets for {territory}, holding")
+        else:  # 20% chance to hold
+            orders.append((territory, 'hold'))
+            logging.info(f"Chose to hold {territory}")
     
     logging.info(f"Final orders for {country}: {orders}")
     return orders

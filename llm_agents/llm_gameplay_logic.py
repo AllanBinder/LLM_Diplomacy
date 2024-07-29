@@ -1,4 +1,6 @@
 from game_utils import ADJACENCY, SEA_TERRITORIES, COASTAL_TERRITORIES, get_adjacent_territories
+import json
+
 
 
 class LLMGameplayLogic:
@@ -7,17 +9,15 @@ class LLMGameplayLogic:
         if isinstance(game_state, str):
             game_state = json.loads(game_state)
         
-        supply_centers = game_state['SC']
-        units = game_state['U']
-        player_scores = game_state['P']
-        
         return {
-            'supply_centers': supply_centers,
-            'units': units,
-            'player_scores': player_scores,
-            'year': game_state['Y'],
-            'season': game_state['S']
+            'supply_centers': game_state.get('SC', {}),
+            'units': game_state.get('U', {}),
+            'player_scores': game_state.get('P', {}),
+            'year': game_state.get('Y', 1901),
+            'season': game_state.get('S', 'S')
         }
+        
+    
 
     @staticmethod
     def generate_possible_moves(game_state, country):
@@ -62,12 +62,12 @@ class LLMGameplayLogic:
         {', '.join(str(move) for move in possible_moves)}
 
         Based on this information, what orders should you give to your units? Consider your strategic position, potential alliances, and the actions of other players. Provide your orders in the format:
-        (Territory, Action, Target) for each unit, e.g., (London, move, North Sea)
+        (Territory, Action, Target) for each unit, e.g., (London, move, North Sea). Do not give an explination for your actions.
         """
         return prompt
     
     @staticmethod
-    def parse_orders(raw_orders, country):
+    def parse_orders(raw_orders, country, game_state):
         parsed_orders = []
         for line in raw_orders.split('\n'):
             if '(' in line and ')' in line:
@@ -76,23 +76,30 @@ class LLMGameplayLogic:
                     territory = order[0].strip()
                     action = order[1].strip().lower()
                     target = order[2].strip() if len(order) > 2 else None
-                    if LLMGameplayLogic.is_valid_order(territory, action, target, country):
+                    if LLMGameplayLogic.is_valid_order(territory, action, target, country, game_state):
                         parsed_orders.append((territory, action, target))
         return parsed_orders
 
     @staticmethod
     def is_valid_order(territory, action, target, country, game_state):
+        # Implement the logic to check if an order is valid
+        # This is a placeholder implementation, you should replace it with actual logic
         if territory not in game_state['U'] or not game_state['U'][territory].endswith(country[:3].upper()):
             return False
-
-        unit_type = game_state['U'][territory][0]  # 'A' for Army, 'F' for Fleet
 
         if action == 'hold':
             return True
         elif action == 'move':
-            return LLMGameplayLogic.is_valid_move(territory, target, unit_type)
+            return target in LLMGameplayLogic.get_adjacent_territories(territory)
         elif action in ['support', 'convoy']:
-            # Check if the supporting/convoying unit is adjacent to the target
-            return target in ADJACENCY[territory]
+            return target in LLMGameplayLogic.get_adjacent_territories(territory)
         else:
             return False
+        
+
+    @staticmethod
+    def get_adjacent_territories(territory):
+        # Implement this method to return adjacent territories
+        # You can use the ADJACENCY dictionary from game_utils.py
+        from game_utils import ADJACENCY
+        return ADJACENCY.get(territory, [])

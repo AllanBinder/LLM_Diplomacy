@@ -51,36 +51,44 @@ class NegotiationSystem:
 
 
     @staticmethod
-    def format_negotiation_prompt(game_state, proposing_country, target_country, proposal):
-        analyzed_state = LLMGameplayLogic.analyze_game_state(game_state)
+    def format_negotiation_prompt(analyzed_state, proposing_country, target_country, proposal, previous_negotiations):
+        negotiation_history = "\n".join([f"{neg['turn']} {neg['season']} - {neg['from']} to {neg['to']}: {neg['message']}" for neg in previous_negotiations[-10:]])
         return f"""
-        You are the diplomat for {proposing_country}.
-        Current game state: {analyzed_state}
+        You are {proposing_country}. Current state: Y{analyzed_state['year']}{analyzed_state['season']}, SC:{len(analyzed_state['supply_centers'])}, Units:{len(analyzed_state['units'])}
         
-        You are negotiating with {target_country}. Your proposal:
-        {proposal}
+        Previous negotiations with {target_country}:
+        {negotiation_history}
 
-        Craft a diplomatic message to {target_country} presenting your proposal. 
-        Be persuasive and highlight mutual benefits. Consider the current game state and potential threats from other players.
+        Your proposal to {target_country}: {proposal}
+
+        Respond concisely (max 50 words) to {target_country}. Be strategic and consider past interactions.
         """
-    
+
     @staticmethod
-    def execute_negotiation(proposing_player, target_player, game_state):
-        try:
-            proposal = NegotiationSystem.generate_proposal(game_state, proposing_player.country, target_player.country)
-            evaluation = NegotiationSystem.evaluate_proposal(game_state, proposing_player.country, target_player.country, proposal)
-            
-            if evaluation['decision'] == 'Accept':
-                return {'status': 'accepted', 'agreement': proposal}
-            elif evaluation['decision'] == 'Counter-propose':
-                counter_proposal = evaluation['counter_proposal']
-                counter_evaluation = NegotiationSystem.evaluate_proposal(game_state, target_player.country, proposing_player.country, counter_proposal)
-                if counter_evaluation['decision'] == 'Accept':
-                    return {'status': 'accepted', 'agreement': counter_proposal}
-                else:
-                    return {'status': 'failed', 'reason': 'Counter-proposal rejected'}
-            else:
-                return {'status': 'rejected', 'reason': evaluation['reasoning']}
-        except Exception as e:
-            print(f"Error during negotiation: {str(e)}")
-            return {'status': 'failed', 'reason': 'Negotiation error'}
+    def execute_negotiation(proposing_player, target_player, game_state, is_gpt_player=False, is_target_gpt_player=False):
+        proposal = NegotiationSystem.generate_proposal(game_state, proposing_player.country, target_player.country)
+        
+        # Proposing player sends a message
+        if is_gpt_player:
+            proposing_message = proposing_player.negotiate(target_player.country, proposal, game_state)
+        else:
+            proposing_message = f"{proposing_player.country} proposes: {proposal}"
+
+        # Target player receives and responds
+        if is_target_gpt_player:
+            target_player.receive_message(proposing_player.country, proposing_message, game_state)
+            target_message = target_player.negotiate(proposing_player.country, proposal, game_state)
+        else:
+            target_message = f"{target_player.country} responds: {target_player.negotiate(proposing_player.country, proposal, game_state)}"
+
+        # Proposing player receives the response
+        if is_gpt_player:
+            proposing_player.receive_message(target_player.country, target_message, game_state)
+
+        # Determine the outcome
+        if "accept" in proposing_message.lower() and "accept" in target_message.lower():
+            return {'status': 'accepted', 'agreement': proposal, 'messages': [proposing_message, target_message]}
+        elif "counter" in proposing_message.lower() or "counter" in target_message.lower():
+            return {'status': 'failed', 'reason': 'Counter-proposal offered', 'messages': [proposing_message, target_message]}
+        else:
+            return {'status': 'rejected', 'reason': 'One or both players rejected the proposal', 'messages': [proposing_message, target_message]}
